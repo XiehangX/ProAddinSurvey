@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31702.278
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProAddinSurvey", "ProAddinSurvey\ProAddinSurvey.csproj", "{0C6142BF-D430-4A43-BECC-6381A1826563}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0C6142BF-D430-4A43-BECC-6381A1826563}.Debug|x64.ActiveCfg = Debug|x64
+		{0C6142BF-D430-4A43-BECC-6381A1826563}.Debug|x64.Build.0 = Debug|x64
+		{0C6142BF-D430-4A43-BECC-6381A1826563}.Release|x64.ActiveCfg = Release|x64
+		{0C6142BF-D430-4A43-BECC-6381A1826563}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D44BCF45-7FEB-41F1-BDEA-9E60CCB8C112}
+	EndGlobalSection
+EndGlobal
