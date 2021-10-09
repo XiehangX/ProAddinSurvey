@@ -123,6 +123,7 @@
     <AddInContent Include="DarkImages\AddInDesktop32.png" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\DataSourceSetting.cs" />
     <Compile Include="Module1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\BrowserButton.cs" />
@@ -130,6 +131,37 @@
     <Compile Include="UI\CustomButton.cs" />
     <Compile Include="UI\GpToolButton.cs" />
     <Compile Include="UI\MapsComboBox.cs" />
+    <Compile Include="ViewModels\ConstructMapVM.cs" />
+    <Compile Include="ViewModels\DataSourceLayerItem.cs" />
+    <Compile Include="ViewModels\DataSourceVM.cs" />
+    <Compile Include="ViewModels\AttributeFileItem.cs" />
+    <Compile Include="Win\AssignMapWin.xaml.cs">
+      <DependentUpon>AssignMapWin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Win\ConstructMapWin.xaml.cs">
+      <DependentUpon>ConstructMapWin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Win\DataSourceWin.xaml.cs">
+      <DependentUpon>DataSourceWin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Win\ShowAssignMapWin.cs" />
+    <Compile Include="Win\ShowConstructMapWin.cs" />
+    <Compile Include="Win\ShowDataSourceWin.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Page Include="Win\AssignMapWin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Win\ConstructMapWin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Win\DataSourceWin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!--

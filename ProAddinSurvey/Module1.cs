@@ -11,6 +11,7 @@ using ArcGIS.Desktop.Framework.Dialogs;
 using ArcGIS.Desktop.Framework.Threading.Tasks;
 using ArcGIS.Desktop.Layouts;
 using ArcGIS.Desktop.Mapping;
+using ProAddinSurvey.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,7 @@ namespace ProAddinSurvey
     internal class Module1 : Module
     {
         private static Module1 _this = null;
+        public ConstructMapVM ConstructMapVM;
 
         /// <summary>
         /// Retrieve the singleton instance to this module here

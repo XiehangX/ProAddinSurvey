@@ -23,52 +23,7 @@ namespace ProAddinSurvey.ViewModels
         {
             //ResultList = new ObservableCollection<DiskRecord>();
 
-
-            //ConnectionString = Module1.ConnectionString;
-            //UserName = Module1.UserName;
-            //Password = Module1.Password;
-            //WarningValue = Module1.WarningValue;
         }
-
-        //public string ConnectionString => Module1.ConnectionString;
-
-        //private string _connectionString;
-        //public string ConnectionString
-        //{
-        //    get { return _connectionString; }
-        //    set
-        //    {
-        //        SetProperty(ref _connectionString, value, () => ConnectionString);
-        //    }
-        //}
-        //private string _userName;
-        //public string UserName
-        //{
-        //    get { return _userName; }
-        //    set
-        //    {
-        //        SetProperty(ref _userName, value, () => UserName);
-        //    }
-        //}
-
-        //private string _password;
-        //public string Password
-        //{
-        //    get { return _password; }
-        //    set
-        //    {
-        //        SetProperty(ref _password, value, () => Password);
-        //    }
-        //}
-        //private string _warningValue;
-        //public string WarningValue
-        //{
-        //    get { return _warningValue; }
-        //    set
-        //    {
-        //        SetProperty(ref _warningValue, value, () => WarningValue);
-        //    }
-        //}
 
 
 
@@ -76,30 +31,6 @@ namespace ProAddinSurvey.ViewModels
 
         public ICommand CmdOk => new RelayCommand((proWindow) =>
         {
-            //ResultList.Clear();
-            //List<DiskRecord> list = new List<DiskRecord>();
-            //bool isLocal = ConnectionString.ToLower() == "localhost" || ConnectionString == "127.0.0.1";
-            //try
-            //{
-            //    list = isLocal ? Utility.LocalDisk() : Utility.RemoteDisk(ConnectionString, UserName, Password);
-
-            //    foreach (DiskRecord each in list)
-            //    {
-            //        each.IsWarning = each.Free <= Math.Round(Convert.ToDouble(WarningValue) / 1024, 1);
-            //        each.Status = each.IsWarning ? "警告" : "正常";
-            //        ResultList.Add(each);
-            //    }
-
-            //    Module1.ConnectionString = ConnectionString;
-            //    Module1.UserName = UserName;
-            //    Module1.Password = Password;
-            //    Module1.WarningValue = WarningValue;
-            //}
-            //catch (Exception exp)
-            //{
-            //    ArcGIS.Desktop.Framework.Dialogs.MessageBox.Show(exp.Message);
-            //}
-
 
             OpenItemDialog pathDialog = new OpenItemDialog()
             {
@@ -119,9 +50,6 @@ namespace ProAddinSurvey.ViewModels
                     MessageBox.Show(selectedItem.Path);
                 }
             }
-            // TODO: set dialog result and close the window
-            //(proWindow as ProWindow).DialogResult = true;
-            //(proWindow as ProWindow).Close();
         }, () => true);
 
 
