@@ -1,5 +1,5 @@
 ﻿<ArcGIS defaultAssembly="ProAddinSurvey.dll" defaultNamespace="ProAddinSurvey" xmlns="http://schemas.esri.com/DADF/Registry" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://schemas.esri.com/DADF/Registry file:///C:/Program%20Files/ArcGIS/Pro/bin/ArcGIS.Desktop.Framework.xsd">
-  <AddInInfo id="{0c6142bf-d430-4a43-becc-6381a1826563}" version="1.0" desktopVersion="2.8.29751">
+  <AddInInfo id="{0c6142bf-d430-4a43-becc-6381a1826563}" version="1.0" desktopVersion="2.7">
     <Name>自然资源综合调查扩展</Name>
     <Description>监测所辖区域内自然资源的变化合规性</Description>
     <Image>Images\AddinDesktop32.png</Image>
@@ -40,11 +40,15 @@
           <button refID="ProAddinSurvey_UI_TrueButton" size="large" />
           <button refID="ProAddinSurvey_UI_FalseButton" size="large" />
         </group>
-        <group id="ProAddinSurvey_Group3" caption="外业指导图斑构建" keytip="G3">
+        <group id="ProAddinSurvey_Group3" caption="数据源设置" keytip="G3">
           <button refID="ProAddinSurvey_UI_DataSourceButton" size="large" />
           <button refID="ProAddinSurvey_UI_CustomButton" size="large" />
+          <button refID="ProAddinSurvey_Win_DataSourceWin" size="large" />
         </group>
-        <group id="ProAddinSurvey_Group4" caption="外业指导图斑赋值" keytip="G4"></group>
+        <group id="ProAddinSurvey_Group4" caption="图斑构建和赋值" keytip="G4">
+          <button refID="ProAddinSurvey_Win_ConstructMapWin" size="large" />
+          <button refID="ProAddinSurvey_Win_AssignMapWin" size="large" />
+        </group>
         <group id="ProAddinSurvey_Group5" caption="外业调查结果上图" keytip="G5">
           <button refID="ProAddinSurvey_GpTool_GeoTaggedPhotosToPoints" size="large" />
         </group>
@@ -107,6 +111,15 @@
           <tooltip heading="Tooltip Heading">
             Tooltip text<disabledText /></tooltip>
         </comboBox>
+        <button id="ProAddinSurvey_Win_ConstructMapWin" caption="图斑构建" className="ProAddinSurvey.Win.ShowConstructMapWin" keytip="CMW" loadOnClick="true" smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/TableAddField16.png" largeImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/TableAddField32.png">
+          <tooltip heading="Tooltip Heading">Tooltip text<disabledText /></tooltip>
+        </button>
+        <button id="ProAddinSurvey_Win_AssignMapWin" caption="图斑赋值" className="ProAddinSurvey.Win.ShowAssignMapWin" keytip="AMW" loadOnClick="true" smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/TableCalculateField16.png" largeImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/TableCalculateField32.png">
+          <tooltip heading="Tooltip Heading">Tooltip text<disabledText /></tooltip>
+        </button>
+        <button id="ProAddinSurvey_Win_DataSourceWin" caption="数据源" className="ProAddinSurvey.Win.ShowDataSourceWin" keytip="DSW" loadOnClick="true" smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/Geodatabase16.png" largeImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/Geodatabase32.png">
+          <tooltip heading="Tooltip Heading">Tooltip text<disabledText /></tooltip>
+        </button>
       </controls>
       <toolbars>
         <toolbar id="ProAddinSurvey_ToolbarChangedMaplayer">
