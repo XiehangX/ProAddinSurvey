@@ -73,14 +73,43 @@ namespace ProAddinSurvey.ViewModels
                 return _applyCommand;
             }
         }
+
+
+        #region Message
+        private string _message;
+        public string Message
+        {
+            get => _message;
+            set
+            {
+                SetProperty(ref _message, value);
+                NotifyPropertyChanged(nameof(HasMessage));
+            }
+        }
+
+        public bool HasMessage => !string.IsNullOrEmpty(_message);
+
+        public void ShowMessage(string msg)
+        {
+            Message = msg;
+        }
+
+        public void ClearMessage()
+        {
+            Message = "";
+        }
+        #endregion
+
         private void SaveChanges()
         {
             MessageBox.Show("SaveChanges", "SaveChanges", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
+
+            foreach (AttributeFileItem item in _attributeFiles)
+            { 
+                
+            }
         }
-        private bool CanSaveChanges()
-        {
-            return _attributeFiles.Count > 0;
-        }
+        private bool CanSaveChanges() => _attributeFiles.Count > 0;
 
         private void SelectAttributeFile()
         {
@@ -107,7 +136,7 @@ namespace ProAddinSurvey.ViewModels
             OpenFileDialog dlg = new OpenFileDialog()
             {
                 Title = "选择属性表文件",
-                DefaultExt = ".csv",
+                DefaultExt = ".xls",
                 Multiselect = true,
                 Filter = "Csv (.csv)|*.csv|Excel (.xls)|*.xls|Excel (.xlsx)|*.xlsx|All files (*.*)|*.*"
             };
@@ -115,13 +144,19 @@ namespace ProAddinSurvey.ViewModels
 
             if (ok == true)
             {
+                ClearMessage();
+                string message = string.Empty;
+
                 string[] items = dlg.FileNames;
                 foreach (string item in items)
                 {
                     FileInfo info = new FileInfo(item);
                     if (_attributeFiles.FirstOrDefault(i => i.FilePath == info.FullName) == null)
                         _attributeFiles.Add(new AttributeFileItem(info.Name, info.FullName));
+                    else
+                        message += $"{info.Name} 已存在;\n";
                 }
+                ShowMessage(message);
             }
         }
     }

@@ -5,7 +5,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:ProAddinSurvey.ViewModels"
+        xmlns:common="clr-namespace:ProAddinSurvey.Common"
         xmlns:extensions="clr-namespace:ArcGIS.Desktop.Extensions;assembly=ArcGIS.Desktop.Extensions"
+            xmlns:FrameworkControls="clr-namespace:ArcGIS.Desktop.Framework.Controls;assembly=ArcGIS.Desktop.Framework"     
         mc:Ignorable="d"
         Title="图斑构建" Height="400" Width="500" MinWidth="300"
         WindowStartupLocation="CenterOwner"
@@ -14,6 +16,9 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <extensions:DesignOnlyResourceDictionary Source="pack://application:,,,/ArcGIS.Desktop.Framework;component\Themes\Default.xaml"/>
+                <ResourceDictionary>
+                    <common:BoolToVisibleConverter x:Key="boolToVisibilityConverter"/>
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
 
             <DataTemplate x:Key="AttributeFileItemTemplate" DataType="{x:Type vm:AttributeFileItem}">
@@ -68,6 +73,7 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -87,13 +93,17 @@
                      ScrollViewer.HorizontalScrollBarVisibility="Disabled">
         </ListBox>
 
-        <StackPanel Grid.Row="3" Grid.Column="0"  HorizontalAlignment="Left" >
+        <FrameworkControls:MessageLabel Grid.Row="3" Grid.ColumnSpan="2" Content="{Binding Message}" Severity="High" MessageType="Information"
+                                    HorizontalAlignment="Stretch"
+                                    Visibility="{Binding Path=HasMessage, Converter={StaticResource boolToVisibilityConverter}, Mode=OneWay}" />
+        
+        <StackPanel Grid.Row="4" Grid.Column="0"  HorizontalAlignment="Left" >
             <Button  x:Name="CreateFilterButton" Margin="5" Command="{Binding SelectAttributeFileCommand}" Style="{DynamicResource Esri_Button}">
                 <Button.ToolTip>选择属性表文件</Button.ToolTip>
                 选择属性表文件
             </Button>
         </StackPanel>
-        <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" >
+        <StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" >
             <Button IsDefault="True" Margin="5"  Width="80" 
                     Command="{Binding ApplyCommand}" CommandParameter="{Binding ElementName=ConstructMapWin}" 
                     Style="{DynamicResource Esri_Button}">
