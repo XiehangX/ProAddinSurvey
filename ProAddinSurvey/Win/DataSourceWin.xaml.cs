@@ -26,6 +26,7 @@ namespace ProAddinSurvey.Win
         {
             InitializeComponent();
             this.DataContext = vm;
+            Module1.Current.DataSourceVM = vm;
         }
     }
 }

@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:extensions="clr-namespace:ArcGIS.Desktop.Extensions;assembly=ArcGIS.Desktop.Extensions"
         mc:Ignorable="d"
-        Title="数据源设置" Height="410" Width="500"
+        Title="数据源设置" Height="400" Width="500" MinHeight="400"
         WindowStartupLocation="CenterOwner"
     >
     <controls:ProWindow.Resources>
@@ -20,10 +20,18 @@
             </Style>-->
             <Style TargetType="TextBox">
                 <Setter Property="HorizontalAlignment" Value="Stretch" />
-                <Setter Property="VerticalAlignment" Value="Center" /> 
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="IsReadOnly" Value="True" />
             </Style>
             <Style TargetType="Button">
                 <Setter Property="Margin" Value="2,5" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderBrush" Value="Transparent" />
+            </Style>
+            <Style TargetType="Image">
+                <Setter Property="Source" Value="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericOpen16.png" />
+                <Setter Property="Stretch" Value="None" />
+                <Setter Property="VerticalAlignment" Value="Center" />
             </Style>
         </ResourceDictionary>
     </controls:ProWindow.Resources>
@@ -49,31 +57,42 @@
         </Grid.ColumnDefinitions>
 
         <Label Grid.Row="0" Grid.Column="0" Content="市级行政区划:"/>
-        <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding AdminArea_City}"/>
-        <Button Grid.Row="1" Grid.Column="1" Command="{Binding CmdOk}" CommandParameter="{Binding ElementName=DataSourceWin}">浏览</Button>
-
+        <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding AdminArea_City}" ToolTip="{Binding AdminArea_City}"/>
+        <Button Grid.Row="1" Grid.Column="1" Command="{Binding BrowseCommand}" CommandParameter="AdminArea_City">
+            <Image/>
+        </Button>
         <Label Grid.Row="2" Grid.Column="0" Content="县级行政区划:"/>
-        <TextBox Grid.Row="3" Grid.Column="0" Text="{Binding AdminArea_Country}" />
-        <Button Grid.Row="3" Grid.Column="1" Command="{Binding CmdOk}" CommandParameter="{Binding ElementName=DataSourceWin}">浏览</Button>
+        <TextBox Grid.Row="3" Grid.Column="0" Text="{Binding AdminArea_Country}" ToolTip="{Binding AdminArea_Country}"/>
+        <Button Grid.Row="3" Grid.Column="1" Command="{Binding BrowseCommand}" CommandParameter="AdminArea_Country" >
+            <Image/>
+        </Button>
 
         <Label Grid.Row="4" Grid.Column="0" Content="乡镇行政区划:"/>
-        <TextBox Grid.Row="5" Grid.Column="0" Text="{Binding AdminArea_Town}" />
-        <Button Grid.Row="5" Grid.Column="1" Command="{Binding CmdOk}" CommandParameter="{Binding ElementName=DataSourceWin}">浏览</Button>
-
-        <Label Grid.Row="6" Grid.Column="0" Content="三调地类图斑:"/>
-        <TextBox Grid.Row="7" Grid.Column="0" Text="{Binding DLTB}" />
-        <Button Grid.Row="7" Grid.Column="1" Command="{Binding CmdOk}" CommandParameter="{Binding ElementName=DataSourceWin}">浏览</Button>
-
-        <Label Grid.Row="8" Grid.Column="0" Content="基本农田图斑:"/>
-        <TextBox Grid.Row="9" Grid.Column="0" Text="{Binding JBNT}"  />
-        <Button Grid.Row="9" Grid.Column="1"  Command="{Binding CmdOk}" CommandParameter="{Binding ElementName=DataSourceWin}">浏览</Button>
-
-        <Label Grid.Row="10" Grid.Column="0" Content="生态红线范围:"/>
-        <TextBox Grid.Row="11" Grid.Column="0" Text="{Binding STHX}"  />
-        <Button Grid.Row="11" Grid.Column="1"  Command="{Binding CmdOk}" CommandParameter="{Binding ElementName=DataSourceWin}">浏览</Button>
+        <TextBox Grid.Row="5" Grid.Column="0" Text="{Binding AdminArea_Town}" ToolTip="{Binding AdminArea_Town}"/>
+        <Button Grid.Row="5" Grid.Column="1" Command="{Binding BrowseCommand}" CommandParameter="AdminArea_Town" >
+            <Image/>
+        </Button>
         
-        <StackPanel Grid.Row="12" Grid.Column="0"  Grid.ColumnSpan="2" HorizontalAlignment="Right" >
-            <Button IsDefault="True"  Width="80" Command="{Binding CmdOk}" CommandParameter="{Binding ElementName=DataSourceWin}">确 定</Button>
-        </StackPanel>
+        <Label Grid.Row="6" Grid.Column="0" Content="三调地类图斑:"/>
+        <TextBox Grid.Row="7" Grid.Column="0" Text="{Binding DLTB}"  ToolTip="{Binding DLTB}"/>
+        <Button Grid.Row="7" Grid.Column="1" Command="{Binding BrowseCommand}" CommandParameter="DLTB" >
+            <Image/>
+        </Button>
+        
+        <Label Grid.Row="8" Grid.Column="0" Content="基本农田图斑:"/>
+        <TextBox Grid.Row="9" Grid.Column="0" Text="{Binding JBNT}"  ToolTip="{Binding JBNT}" />
+        <Button Grid.Row="9" Grid.Column="1"  Command="{Binding BrowseCommand}" CommandParameter="JBNT" >
+            <Image/>
+        </Button>
+        
+        <Label Grid.Row="10" Grid.Column="0" Content="生态红线范围:"/>
+        <TextBox Grid.Row="11" Grid.Column="0" Text="{Binding STHX}"  ToolTip="{Binding STHX}" />
+        <Button Grid.Row="11" Grid.Column="1"  Command="{Binding BrowseCommand}" CommandParameter="STHX" >
+            <Image/>
+        </Button>
+        
+        <!--<StackPanel Grid.Row="12" Grid.Column="0"  Grid.ColumnSpan="2" HorizontalAlignment="Right" >
+            <Button IsDefault="True"  Width="80" Command="{Binding ApplyCommand}" CommandParameter="{Binding ElementName=DataSourceWin}" Style="{DynamicResource Esri_Button}">确 定</Button>
+        </StackPanel>-->
     </Grid>
 </controls:ProWindow>
