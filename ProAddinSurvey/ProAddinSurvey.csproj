@@ -42,8 +42,15 @@
     <ArcGISFolder Condition="'$(ArcGISFolder)' == ''">$(registry:HKEY_CURRENT_USER\SOFTWARE\ESRI\ArcGISPro@InstallDir)</ArcGISFolder>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ExcelDataReader, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelDataReader.3.6.0\lib\net45\ExcelDataReader.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelDataReader.DataSet, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelDataReader.DataSet.3.6.0\lib\net35\ExcelDataReader.DataSet.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -124,9 +131,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\BoolToVisibleConverter.cs" />
+    <Compile Include="Common\ExcelHelper.cs" />
     <Compile Include="Common\GPTool.cs" />
     <Compile Include="Common\ScrollViewerExtensions.cs" />
     <Compile Include="Common\StringToBoolConverter.cs" />
+    <Compile Include="Models\AttributeTableEntity.cs" />
     <Compile Include="Models\DataSourceSetting.cs" />
     <Compile Include="Module1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -152,7 +161,9 @@
     <Compile Include="Win\ShowConstructMapWin.cs" />
     <Compile Include="Win\ShowDataSourceWin.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <ItemGroup>
     <Page Include="Win\AssignMapWin.xaml">
       <SubType>Designer</SubType>
