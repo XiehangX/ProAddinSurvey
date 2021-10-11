@@ -5,9 +5,12 @@ using ArcGIS.Desktop.Framework;
 using ArcGIS.Desktop.Framework.Contracts;
 using ArcGIS.Desktop.Framework.Dialogs;
 using Microsoft.Win32;
+using ProAddinSurvey.Common;
+using ProAddinSurvey.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -32,19 +35,19 @@ namespace ProAddinSurvey.ViewModels
 
         }
 
-        //private AttributeFileItem _selectedAttributeFileItem;
-        ///// <summary>
-        ///// 选中的属性表文件项
-        ///// </summary>
-        //public AttributeFileItem SelectedAttributeFileItem
-        //{
+        private AttributeFileItem _selectedAttributeFileItem;
+        /// <summary>
+        /// 选中的属性表文件项
+        /// </summary>
+        public AttributeFileItem SelectedAttributeFileItem
+        {
 
-        //    get { return _selectedAttributeFileItem; }
-        //    set
-        //    {
-        //        SetProperty(ref _selectedAttributeFileItem, value, () => SelectedAttributeFileItem);
-        //    }
-        //}
+            get { return _selectedAttributeFileItem; }
+            set
+            {
+                SetProperty(ref _selectedAttributeFileItem, value, () => SelectedAttributeFileItem);
+            }
+        }
 
 
         private ICommand _selectAttributeFileCommand;
@@ -150,11 +153,19 @@ namespace ProAddinSurvey.ViewModels
 
         private void SaveChanges()
         {
-            MessageBox.Show("SaveChanges", "SaveChanges", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
-
             foreach (AttributeFileItem item in _attributeFiles)
-            { 
-                
+            {
+                int rowHeader = 3;
+                using (DataTable dt = ExcelHelper.LoadTableFirst(item.FilePath, rowHeader))
+                {
+                    if (dt == null)
+                        continue;
+
+                    List<AttributeTable> list = ExcelHelper.DataTableToList<AttributeTable>(dt);
+
+                }
+
+                break;
             }
         }
         private async void AddFields()
@@ -185,7 +196,7 @@ namespace ProAddinSurvey.ViewModels
         }
 
 
-        private bool CanSaveChanges() => _attributeFiles.Count > 0;
+        private bool CanSaveChanges() => !string.IsNullOrEmpty(ItemPath) && _attributeFiles.Count > 0;
 
         //private void SelectAttributeFile()
         //{
