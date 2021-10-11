@@ -124,6 +124,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\BoolToVisibleConverter.cs" />
+    <Compile Include="Common\GPTool.cs" />
+    <Compile Include="Common\ScrollViewerExtensions.cs" />
+    <Compile Include="Common\StringToBoolConverter.cs" />
     <Compile Include="Models\DataSourceSetting.cs" />
     <Compile Include="Module1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
