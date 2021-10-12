@@ -23,7 +23,6 @@ namespace ProAddinSurvey.Models
         /// <summary>
         /// 转为 AddField 的字段描述
         /// AddField_management(in_table, field_name, field_type, { field_precision}, { field_scale}, { field_length}, { field_alias}, { field_is_nullable}, { field_is_required}, { field_domain})
-        /// Geoprocessing.MakeValueArray();
         /// </summary>
         /// <returns></returns>
         public List<object> ToAddFieldDesc()

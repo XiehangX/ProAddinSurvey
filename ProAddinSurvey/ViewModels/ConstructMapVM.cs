@@ -183,23 +183,22 @@ namespace ProAddinSurvey.ViewModels
                             continue;
                         }
 
-                        int rowHeader = 3;
-                        using (DataTable dt = ExcelHelper.LoadTableFirst(item.FilePath, rowHeader))
+                        try
                         {
-                            List<AttributeTableEntity> list = ExcelHelper.DataTableToList<AttributeTableEntity>(dt);
-
-                            try
+                            int rowHeader = 3;
+                            using (DataTable dt = ExcelHelper.LoadTableFirst(item.FilePath, rowHeader))
                             {
+                                List<AttributeTableEntity> list = ExcelHelper.DataTableToList<AttributeTableEntity>(dt);
+
                                 string newLayerName = $"{layer.Name}_{Path.GetFileNameWithoutExtension(item.FileName)}".Trim();
                                 //string newLayerPath = await GPToolHelper.ExecuteCopyToolAsync(layer, newLayerName); 
-                                string newLayerPath = await GPToolHelper.ExecuteFeatureClassToFeatureClassToolAsync(layer, newLayerName); 
-                                 var newLayer = LayerFactory.Instance.CreateFeatureLayer(new Uri(newLayerPath), MapView.Active.Map);
+                                string newLayerPath = await GPToolHelper.ExecuteFeatureClassToFeatureClassToolAsync(layer, newLayerName);
+                                var newLayer = LayerFactory.Instance.CreateFeatureLayer(new Uri(newLayerPath), MapView.Active.Map);
                                 if (newLayer == null)
                                 {
                                     Message += $@"{newLayerPath} 图层创建失败";
                                     continue;
                                 }
-
                                 Message += $"属性字段 {list.Count} 个\n";
                                 //foreach (AttributeTableEntity field in list)
                                 //{
@@ -214,12 +213,11 @@ namespace ProAddinSurvey.ViewModels
                                 }
                                 await GPToolHelper.ExecuteAddFieldsToolAsync(newLayer, fieldArgumentsList);
                             }
-                            catch (Exception exp)
-                            {
-                                MessageBox.Show(exp.Message);
-                            }
                         }
-                        //break;
+                        catch (Exception exp)
+                        {
+                            MessageBox.Show(exp.Message);
+                        }
                     }
                 }
             });
@@ -259,9 +257,9 @@ namespace ProAddinSurvey.ViewModels
         {
             var bpf = new BrowseProjectFilter("esri_browseDialogFilters_browseFiles")
             {
-                FileExtension = "*.xls;*.xlsx;*.csv;",
+                FileExtension = "*.xls;*.xlsx;",//*.csv;
                 BrowsingFilesMode = true,
-                Name = "属性表模板 (*.xls;*.xlsx;*.csv;)"
+                Name = "属性表模板 (*.xls;*.xlsx;)" //*.csv;
             };
 
             OpenItemDialog dlg = new OpenItemDialog()
