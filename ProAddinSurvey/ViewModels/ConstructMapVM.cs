@@ -1,9 +1,12 @@
-﻿using ArcGIS.Desktop.Catalog;
+﻿using ArcGIS.Core.Data;
+using ArcGIS.Desktop.Catalog;
 using ArcGIS.Desktop.Core;
 using ArcGIS.Desktop.Core.Geoprocessing;
 using ArcGIS.Desktop.Framework;
 using ArcGIS.Desktop.Framework.Contracts;
 using ArcGIS.Desktop.Framework.Dialogs;
+using ArcGIS.Desktop.Framework.Threading.Tasks;
+using ArcGIS.Desktop.Mapping;
 using Microsoft.Win32;
 using ProAddinSurvey.Common;
 using ProAddinSurvey.Models;
@@ -151,50 +154,79 @@ namespace ProAddinSurvey.ViewModels
         }
         #endregion
 
-        private void SaveChanges()
+        private async void SaveChanges()
         {
-            foreach (AttributeFileItem item in _attributeFiles)
+            //if (!File.Exists(ItemPath))
+            //    throw new Exception($@"{ItemPath} 图层不存在或无法访问");
+            await QueuedTask.Run(async () =>
             {
-                int rowHeader = 3;
-                using (DataTable dt = ExcelHelper.LoadTableFirst(item.FilePath, rowHeader))
+                ClearMessage();
+                var layerParams = new FeatureLayerCreationParams(new Uri(ItemPath));
+                var layer = LayerFactory.Instance.CreateLayer<FeatureLayer>(layerParams, MapView.Active.Map);
+                //var layer = LayerFactory.Instance.CreateFeatureLayer(new Uri(ItemPath), MapView.Active.Map);
+                if (layer == null)
                 {
-                    if (dt == null)
-                        continue;
-
-                    List<AttributeTable> list = ExcelHelper.DataTableToList<AttributeTable>(dt);
-
+                    MessageBox.Show($@"{ItemPath} 图层不存在或无法访问");
+                    return;
                 }
+                else
+                {
+                    //var dataSource = await GPToolHelper.GetDataSource(layer);
+                    //Message += $@"{dataSource} 图层正常访问";
 
-                break;
-            }
+                    foreach (AttributeFileItem item in _attributeFiles)
+                    {
+                        Message += $"解析属性表文件 {item.FileName} \n";
+                        if (!File.Exists(item.FilePath))
+                        {
+                            Message += $"{item.FileName} 文件不存在\n";
+                            continue;
+                        }
+
+                        int rowHeader = 3;
+                        using (DataTable dt = ExcelHelper.LoadTableFirst(item.FilePath, rowHeader))
+                        {
+                            List<AttributeTableEntity> list = ExcelHelper.DataTableToList<AttributeTableEntity>(dt);
+
+                            try
+                            {
+                                string newLayerName = $"{layer.Name}_{Path.GetFileNameWithoutExtension(item.FileName)}";
+                                //string newLayerPath = await GPToolHelper.ExecuteCopyToolAsync(layer, newLayerName); 
+                                string newLayerPath = await GPToolHelper.ExecuteFeatureClassToFeatureClassToolAsync(layer, newLayerName); 
+                                 var newLayer = LayerFactory.Instance.CreateFeatureLayer(new Uri(newLayerPath), MapView.Active.Map);
+                                if (newLayer == null)
+                                {
+                                    Message += $@"{newLayerPath} 图层创建失败";
+                                    continue;
+                                }
+
+                                Message += $"属性字段 {list.Count} 个\n";
+                                foreach (AttributeTableEntity field in list)
+                                {
+                                    if (string.IsNullOrEmpty(field.字段长度))
+                                        field.字段长度 = "1000";
+
+                                    string fieldType = field.字段类型;
+                                    if (!Enum.TryParse(fieldType, out FieldType fieldTypeParseResult))
+                                    {
+                                        fieldType = "Text";
+                                    }
+
+                                    int? fieldLength = Convert.ToInt32(field.字段长度);
+                                    await GPToolHelper.ExecuteAddFieldToolAsync(newLayer, new KeyValuePair<string, string>(field.字段代码, field.字段名称), fieldType, fieldLength);
+
+                                }
+                            }
+                            catch (Exception exp)
+                            {
+                                MessageBox.Show(exp.Message);
+                            }
+                        }
+                        //break;
+                    }
+                }
+            });
         }
-        private async void AddFields()
-        {
-
-            // set overwrite flag           
-            var environments = Geoprocessing.MakeEnvironmentArray(overwriteoutput: true);
-
-            //To use Excel files in Pro, you need Microsoft Access Database Engine 2016. 
-            //Refer to the Pro Help topic "Work with Microsoft Excel files" for more information on dowloading the required driver.
-            //https://prodev.arcgis.com/en/pro-app/help/data/excel/work-with-excel-in-arcgis-pro.htm
-
-            #region Geoprocessing.ExecuteToolAsync(MakeXYEventLayer_management)
-            var cts = new CancellationTokenSource();
-            //var result = await Geoprocessing.ExecuteToolAsync("data_management", new string[] {
-            //    xlsTableName,
-            //    "POINT_X",
-            //    "POINT_Y",
-            //    xlsLayerName,
-            //    "WGS_1984"
-            //}, environments, cts.Token,
-            //            (eventName, o) =>
-            //            {
-            //                System.Diagnostics.Debug.WriteLine($@"GP event: {eventName}");
-            //            });
-
-            #endregion
-        }
-
 
         private bool CanSaveChanges() => !string.IsNullOrEmpty(ItemPath) && _attributeFiles.Count > 0;
 

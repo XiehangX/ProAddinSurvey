@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:extensions="clr-namespace:ArcGIS.Desktop.Extensions;assembly=ArcGIS.Desktop.Extensions"
         mc:Ignorable="d"
-        Title="数据源设置" Height="400" Width="500" MinHeight="400"
+        Title="数据源设置" Height="400" Width="500" MinHeight="400" MinWidth="200"
         WindowStartupLocation="CenterOwner"
     >
     <controls:ProWindow.Resources>

@@ -132,7 +132,7 @@
   <ItemGroup>
     <Compile Include="Common\BoolToVisibleConverter.cs" />
     <Compile Include="Common\ExcelHelper.cs" />
-    <Compile Include="Common\GPTool.cs" />
+    <Compile Include="Common\GPToolHelper.cs" />
     <Compile Include="Common\ScrollViewerExtensions.cs" />
     <Compile Include="Common\StringToBoolConverter.cs" />
     <Compile Include="Models\AttributeTableEntity.cs" />

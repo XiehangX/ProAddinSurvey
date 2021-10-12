@@ -52,7 +52,7 @@ namespace ProAddinSurvey.Common
             {
                 List<T> list = new List<T>();
 
-                foreach (var row in table.AsEnumerable())
+                foreach (var row in table?.AsEnumerable())
                 {
                     T obj = new T();
 

@@ -41,8 +41,8 @@
           <button refID="ProAddinSurvey_UI_FalseButton" size="large" />
         </group>
         <group id="ProAddinSurvey_Group3" caption="数据源设置" keytip="G3">
-          <button refID="ProAddinSurvey_UI_DataSourceButton" size="large" />
-          <button refID="ProAddinSurvey_UI_CustomButton" size="large" />
+          <!--<button refID="ProAddinSurvey_UI_DataSourceButton" size="large" />
+          <button refID="ProAddinSurvey_UI_CustomButton" size="large" />-->
           <button refID="ProAddinSurvey_Win_DataSourceWin" size="large" />
         </group>
         <group id="ProAddinSurvey_Group4" caption="图斑构建和赋值" keytip="G4">
