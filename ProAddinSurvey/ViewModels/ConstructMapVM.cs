@@ -201,24 +201,18 @@ namespace ProAddinSurvey.ViewModels
                                 }
 
                                 Message += $"属性字段 {list.Count} 个\n";
+                                //foreach (AttributeTableEntity field in list)
+                                //{
+                                //    List<object> arguments = field.ToAddFieldDesc();
+                                //    await GPToolHelper.ExecuteAddFieldToolAsync(newLayer, arguments);
+                                //}
+                                List<object> fieldArgumentsList = new List<object>();
                                 foreach (AttributeTableEntity field in list)
                                 {
-                                    //if (string.IsNullOrEmpty(field.字段长度))
-                                    //    field.字段长度 = "1000";
-
-                                    //string fieldType = field.字段类型;
-                                    //if (!Enum.TryParse(fieldType, out FieldType fieldTypeParseResult))
-                                    //{
-                                    //    fieldType = "Text";
-                                    //}
-
-                                    //int? fieldLength = Convert.ToInt32(field.字段长度);
-                                    //await GPToolHelper.ExecuteAddFieldToolAsync(newLayer, new KeyValuePair<string, string>(field.字段代码, field.字段名称), fieldType, fieldLength);
-
-                                    List<object> arguments =  field.ToAddFieldDesc();
-                                    await GPToolHelper.ExecuteAddFieldToolAsync(newLayer, arguments);
-
+                                    string arguments = field.ToAddFieldsDesc();
+                                    fieldArgumentsList.Add(arguments);
                                 }
+                                await GPToolHelper.ExecuteAddFieldsToolAsync(newLayer, fieldArgumentsList);
                             }
                             catch (Exception exp)
                             {

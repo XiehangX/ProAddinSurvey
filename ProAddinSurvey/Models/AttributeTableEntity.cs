@@ -65,7 +65,7 @@ namespace ProAddinSurvey.Models
         /// field_description [[Field Name, Field Type, {Field Alias}, {Field Length}, { Default Value}, { Field Domain}],...]
         /// </summary>
         /// <returns></returns>
-        public List<object> ToAddFieldsDesc()
+        public string ToAddFieldsDesc()
         {
             string field_name = 字段代码;
             string field_type = 字段类型;
@@ -81,13 +81,8 @@ namespace ProAddinSurvey.Models
 
             int? field_length = Convert.ToInt32(fieldLengthStr);
 
-            if (!Enum.TryParse(field_type, out FieldType _))
-            {
-                field_type = "Text";
-            }
-
-            object defaultValue = null;
-            string domains = string.Empty;
+            object defaultValue = "#";
+            string domains = "#";
 
             List<object> arguments = new List<object>
               {
@@ -98,7 +93,9 @@ namespace ProAddinSurvey.Models
                 defaultValue,
                 domains
               };
-            return arguments;
+            var result = string.Join(" ", arguments.ToArray());
+
+            return result;
         }
 
     }

@@ -248,11 +248,7 @@ namespace ProAddinSurvey.Common
             });
         }
 
-        public static async Task<string> ExecuteAddFieldsToolAsync(
-          BasicFeatureLayer theLayer,
-          KeyValuePair<string, string> field,
-          string fieldType, int? fieldLength = null,
-          bool isNullable = true)
+        public static async Task<string> ExecuteAddFieldsToolAsync(BasicFeatureLayer theLayer, List<object> argumentsList)
         {
             return await QueuedTask.Run(() =>
             {
@@ -266,11 +262,8 @@ namespace ProAddinSurvey.Common
 
                     var fullSpec = System.IO.Path.Combine(workspaceName, inTable);
 
-                    //// AddField_management(in_table, field_name, field_type, { field_precision}, { field_scale}, { field_length}, { field_alias}, { field_is_nullable}, { field_is_required}, { field_domain})
-                    //Geoprocessing.MakeValueArray();
-
-                    var parameters = Geoprocessing.MakeValueArray(fullSpec, field.Key, fieldType.ToUpper(), null, null,
-                          fieldLength, field.Value, isNullable ? "NULABLE" : "NON_NULLABLE");
+                    List<object> arguments = new List<object> { fullSpec, argumentsList.ToArray() };
+                    var parameters = Geoprocessing.MakeValueArray(arguments.ToArray());
                     var cts = new CancellationTokenSource();
                     var results = Geoprocessing.ExecuteToolAsync("management.AddFields", parameters, null, cts.Token,
                           (eventName, o) =>
