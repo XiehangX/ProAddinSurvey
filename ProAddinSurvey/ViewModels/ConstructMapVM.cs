@@ -196,10 +196,10 @@ namespace ProAddinSurvey.ViewModels
                                 var newLayer = LayerFactory.Instance.CreateFeatureLayer(new Uri(newLayerPath), MapView.Active.Map);
                                 if (newLayer == null)
                                 {
-                                    Message += $@"{newLayerPath} 图层创建失败";
+                                    Message += $"{newLayerName} 图层创建失败\n";
                                     continue;
                                 }
-                                Message += $"属性字段 {list.Count} 个\n";
+                                Message += $"已解析待添加属性字段 {list.Count} 个\n";
                                 //foreach (AttributeTableEntity field in list)
                                 //{
                                 //    List<object> arguments = field.ToAddFieldDesc();
@@ -212,11 +212,13 @@ namespace ProAddinSurvey.ViewModels
                                     fieldArgumentsList.Add(arguments);
                                 }
                                 await GPToolHelper.ExecuteAddFieldsToolAsync(newLayer, fieldArgumentsList);
+                                Message += $"{newLayerName} 图层属性字段批量添加完成\n";
                             }
                         }
                         catch (Exception exp)
                         {
                             MessageBox.Show(exp.Message);
+                            Message += $"执行异常。{exp.Message} \n";
                         }
                     }
                 }
