@@ -26,7 +26,7 @@ namespace ProAddinSurvey.Models
         /// Geoprocessing.MakeValueArray();
         /// </summary>
         /// <returns></returns>
-        public List<object> ToFieldDesc()
+        public List<object> ToAddFieldDesc()
         {
             string field_name = 字段代码;
             string field_type = 字段类型;
@@ -44,6 +44,8 @@ namespace ProAddinSurvey.Models
 
             int? field_length = Convert.ToInt32(fieldLengthStr);
 
+            string isNullable = "NULABLE";//: "NON_NULLABLE"
+
             List<object> arguments = new List<object>
               {
                 field_name,
@@ -52,6 +54,7 @@ namespace ProAddinSurvey.Models
                 field_scale,
                 field_length,
                 field_alias,
+                isNullable
               };
             return arguments;
         }
@@ -62,7 +65,7 @@ namespace ProAddinSurvey.Models
         /// field_description [[Field Name, Field Type, {Field Alias}, {Field Length}, { Default Value}, { Field Domain}],...]
         /// </summary>
         /// <returns></returns>
-        public List<object> ToFieldsDesc()
+        public List<object> ToAddFieldsDesc()
         {
             string field_name = 字段代码;
             string field_type = 字段类型;

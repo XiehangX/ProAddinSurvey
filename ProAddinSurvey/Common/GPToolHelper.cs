@@ -213,6 +213,40 @@ namespace ProAddinSurvey.Common
                 }
             });
         }
+        public static async Task<string> ExecuteAddFieldToolAsync(
+          BasicFeatureLayer theLayer,
+          List<object> arguments)
+        {
+            return await QueuedTask.Run(() =>
+            {
+                try
+                {
+                    var inTable = theLayer.Name;
+                    var table = theLayer.GetTable();
+                    var dataStore = table.GetDatastore();
+                    var workspaceNameDef = dataStore.GetConnectionString();
+                    var workspaceName = workspaceNameDef.Split('=')[1];
+
+                    var fullSpec = System.IO.Path.Combine(workspaceName, inTable);
+                    arguments.Insert(0, fullSpec);
+
+                    var parameters = Geoprocessing.MakeValueArray(arguments.ToArray());
+                    var cts = new CancellationTokenSource();
+                    var results = Geoprocessing.ExecuteToolAsync("management.AddField", parameters, null, cts.Token,
+                          (eventName, o) =>
+                          {
+                              System.Diagnostics.Debug.WriteLine($@"GP event: {eventName}");
+                          });
+                    var isFailure = results.Result.IsFailed || results.Result.IsCanceled;
+                    return !isFailure ? "Failed" : "Ok";
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                    return ex.ToString();
+                }
+            });
+        }
 
         public static async Task<string> ExecuteAddFieldsToolAsync(
           BasicFeatureLayer theLayer,

@@ -190,7 +190,7 @@ namespace ProAddinSurvey.ViewModels
 
                             try
                             {
-                                string newLayerName = $"{layer.Name}_{Path.GetFileNameWithoutExtension(item.FileName)}";
+                                string newLayerName = $"{layer.Name}_{Path.GetFileNameWithoutExtension(item.FileName)}".Trim();
                                 //string newLayerPath = await GPToolHelper.ExecuteCopyToolAsync(layer, newLayerName); 
                                 string newLayerPath = await GPToolHelper.ExecuteFeatureClassToFeatureClassToolAsync(layer, newLayerName); 
                                  var newLayer = LayerFactory.Instance.CreateFeatureLayer(new Uri(newLayerPath), MapView.Active.Map);
@@ -203,17 +203,20 @@ namespace ProAddinSurvey.ViewModels
                                 Message += $"属性字段 {list.Count} 个\n";
                                 foreach (AttributeTableEntity field in list)
                                 {
-                                    if (string.IsNullOrEmpty(field.字段长度))
-                                        field.字段长度 = "1000";
+                                    //if (string.IsNullOrEmpty(field.字段长度))
+                                    //    field.字段长度 = "1000";
 
-                                    string fieldType = field.字段类型;
-                                    if (!Enum.TryParse(fieldType, out FieldType fieldTypeParseResult))
-                                    {
-                                        fieldType = "Text";
-                                    }
+                                    //string fieldType = field.字段类型;
+                                    //if (!Enum.TryParse(fieldType, out FieldType fieldTypeParseResult))
+                                    //{
+                                    //    fieldType = "Text";
+                                    //}
 
-                                    int? fieldLength = Convert.ToInt32(field.字段长度);
-                                    await GPToolHelper.ExecuteAddFieldToolAsync(newLayer, new KeyValuePair<string, string>(field.字段代码, field.字段名称), fieldType, fieldLength);
+                                    //int? fieldLength = Convert.ToInt32(field.字段长度);
+                                    //await GPToolHelper.ExecuteAddFieldToolAsync(newLayer, new KeyValuePair<string, string>(field.字段代码, field.字段名称), fieldType, fieldLength);
+
+                                    List<object> arguments =  field.ToAddFieldDesc();
+                                    await GPToolHelper.ExecuteAddFieldToolAsync(newLayer, arguments);
 
                                 }
                             }
