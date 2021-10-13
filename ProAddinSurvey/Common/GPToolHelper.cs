@@ -112,7 +112,7 @@ namespace ProAddinSurvey.Common
                           (eventName, o) =>
                           {
                               System.Diagnostics.Debug.WriteLine($@"GP event: {eventName}");
-                          });
+                          }, GPExecuteToolFlags.None);
                     var isFailure = results.Result.IsFailed || results.Result.IsCanceled;
                     return isFailure ? string.Empty : newSpec;
                 }
@@ -149,11 +149,11 @@ namespace ProAddinSurvey.Common
 
                     var parameters = Geoprocessing.MakeValueArray(fullSpec, workspaceName, newLayerName);
                     var cts = new CancellationTokenSource();
-                    var results = Geoprocessing.ExecuteToolAsync("conversion.FeatureClassToFeatureClass", parameters, null, cts.Token,
+                    var results = Geoprocessing.ExecuteToolAsync("conversion.FeatureClassToFeatureClass", parameters, null, cts.Token, 
                           (eventName, o) =>
                           {
                               System.Diagnostics.Debug.WriteLine($@"GP event: {eventName}");
-                          });
+                          }, GPExecuteToolFlags.None);
                     var isFailure = results.Result.IsFailed || results.Result.IsCanceled;
                     return isFailure ? string.Empty : newSpec;
                 }

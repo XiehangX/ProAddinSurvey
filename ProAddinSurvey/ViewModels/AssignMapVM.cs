@@ -4,9 +4,13 @@ using ArcGIS.Desktop.Framework;
 using ArcGIS.Desktop.Framework.Contracts;
 using ArcGIS.Desktop.Framework.Dialogs;
 using ArcGIS.Desktop.Framework.Threading.Tasks;
+using ArcGIS.Desktop.Mapping;
 using ProAddinSurvey.Common;
+using ProAddinSurvey.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,28 +18,42 @@ using System.Windows.Input;
 
 namespace ProAddinSurvey.ViewModels
 {
+    /// <summary>
+    /// 监测图斑赋值
+    /// </summary>
     public class AssignMapVM : PropertyChangedBase
     {
 
         private string _layerPath;
+        /// <summary>
+        /// 监测图斑图层
+        /// </summary>
         public string LayerPath
         {
             get { return _layerPath; }
             set { SetProperty(ref _layerPath, value, () => LayerPath); }
         }
         private string _targetPath;
+        /// <summary>
+        /// 输出GDB路径
+        /// </summary>
         public string TargetPath
         {
             get { return _targetPath; }
             set { SetProperty(ref _targetPath, value, () => TargetPath); }
         }
         private string _filePath;
+        /// <summary>
+        /// 属性表文件路径
+        /// </summary>
         public string FilePath
         {
             get { return _filePath; }
             set { SetProperty(ref _filePath, value, () => FilePath); }
         }
-
+        /// <summary>
+        /// 选择图层
+        /// </summary>
         public ICommand BrowseLayerCommand => new RelayCommand((param) =>
         {
             IEnumerable<Item> items = FileAccessHelper.BrowsePolygonLayerInFgdb();
@@ -47,7 +65,9 @@ namespace ProAddinSurvey.ViewModels
                 break;
             }
         }, () => true);
-
+        /// <summary>
+        /// 选择输出GDB
+        /// </summary>
         public ICommand BrowseGdbCommand => new RelayCommand((param) =>
         {
             IEnumerable<Item> items = FileAccessHelper.BrowseFgdb();
@@ -59,7 +79,9 @@ namespace ProAddinSurvey.ViewModels
                 break;
             }
         }, () => true);
-
+        /// <summary>
+        /// 选择属性文件
+        /// </summary>
         public ICommand BrowseFileCommand => new RelayCommand((param) =>
         {
             IEnumerable<Item> items = FileAccessHelper.BrowseExcel();
@@ -99,7 +121,7 @@ namespace ProAddinSurvey.ViewModels
 
         private RelayCommand _applyCommand;
         /// <summary>
-        /// 确定
+        /// 确定执行
         /// </summary>
         public ICommand ApplyCommand
         {
@@ -112,74 +134,62 @@ namespace ProAddinSurvey.ViewModels
             }
         }
 
+        /// <summary>
+        /// 监测图斑图层
+        /// </summary>
+        private FeatureLayer SurveyLayer { get; set; } = null;
+
+        private bool CheckParams()
+        {
+            SurveyLayer = LayerFactory.Instance.CreateFeatureLayer(new Uri(LayerPath), MapView.Active.Map);
+            if (SurveyLayer == null)
+            {
+                MessageBox.Show($@"{LayerPath} 图层不存在或无法访问");
+                return false;
+            }
+
+            if (!File.Exists(FilePath))
+            {
+                MessageBox.Show($@"{FilePath} 属性表文件不存在或无法访问");
+                return false;
+            }
+
+            if (!Directory.Exists(TargetPath))
+            {
+                MessageBox.Show($@"{TargetPath} 目标GDB不存在或无法访问");
+                return false;
+            }
+
+            return true;
+        }
+
         private async void SaveChanges()
         {
-            //if (!File.Exists(ItemPath))
-            //    throw new Exception($@"{ItemPath} 图层不存在或无法访问");
+            ClearMessage(); ;
             await QueuedTask.Run(async () =>
             {
-                ClearMessage();
-                //var layerParams = new FeatureLayerCreationParams(new Uri(ItemPath));
-                //var layer = LayerFactory.Instance.CreateLayer<FeatureLayer>(layerParams, MapView.Active.Map);
-                ////var layer = LayerFactory.Instance.CreateFeatureLayer(new Uri(ItemPath), MapView.Active.Map);
-                //if (layer == null)
-                //{
-                //    MessageBox.Show($@"{ItemPath} 图层不存在或无法访问");
-                //    return;
-                //}
-                //else
-                //{
-                //    //var dataSource = await GPToolHelper.GetDataSource(layer);
-                //    //Message += $@"{dataSource} 图层正常访问";
+                if (!CheckParams())
+                    return;
 
-                //    foreach (AttributeFileItem item in _attributeFiles)
-                //    {
-                //        Message += $"解析属性表文件 {item.FileName} \n";
-                //        if (!File.Exists(item.FilePath))
-                //        {
-                //            Message += $"{item.FileName} 文件不存在\n";
-                //            continue;
-                //        }
+                try
+                {
+                    int rowHeader = 3;
+                    using (DataTable dt = ExcelHelper.LoadTableFirst(FilePath, rowHeader))
+                    {
+                        List<AttributeTableEntity> list = ExcelHelper.DataTableToList<AttributeTableEntity>(dt);
 
-                //        try
-                //        {
-                //            int rowHeader = 3;
-                //            using (DataTable dt = ExcelHelper.LoadTableFirst(item.FilePath, rowHeader))
-                //            {
-                //                List<AttributeTableEntity> list = ExcelHelper.DataTableToList<AttributeTableEntity>(dt);
-
-                //                string newLayerName = $"{layer.Name}_{Path.GetFileNameWithoutExtension(item.FileName)}".Trim();
-                //                //string newLayerPath = await GPToolHelper.ExecuteCopyToolAsync(layer, newLayerName); 
-                //                string newLayerPath = await GPToolHelper.ExecuteFeatureClassToFeatureClassToolAsync(layer, newLayerName);
-                //                var newLayer = LayerFactory.Instance.CreateFeatureLayer(new Uri(newLayerPath), MapView.Active.Map);
-                //                if (newLayer == null)
-                //                {
-                //                    Message += $"{newLayerName} 图层创建失败\n";
-                //                    continue;
-                //                }
-                //                Message += $"已解析待添加属性字段 {list.Count} 个\n";
-                //                //foreach (AttributeTableEntity field in list)
-                //                //{
-                //                //    List<object> arguments = field.ToAddFieldDesc();
-                //                //    await GPToolHelper.ExecuteAddFieldToolAsync(newLayer, arguments);
-                //                //}
-                //                List<object> fieldArgumentsList = new List<object>();
-                //                foreach (AttributeTableEntity field in list)
-                //                {
-                //                    string arguments = field.ToAddFieldsDesc();
-                //                    fieldArgumentsList.Add(arguments);
-                //                }
-                //                await GPToolHelper.ExecuteAddFieldsToolAsync(newLayer, fieldArgumentsList);
-                //                Message += $"{newLayerName} 图层属性字段批量添加完成\n";
-                //            }
-                //        }
-                //        catch (Exception exp)
-                //        {
-                //            MessageBox.Show(exp.Message);
-                //            Message += $"执行异常。{exp.Message} \n";
-                //        }
-                //    }
-                //}
+                        foreach (AttributeTableEntity field in list)
+                        {
+                            //List<object> arguments = field.ToAddFieldDesc();
+                            //await GPToolHelper.ExecuteAddFieldToolAsync(SurveyLayer, arguments);
+                        }
+                    }
+                }
+                catch (Exception exp)
+                {
+                    MessageBox.Show(exp.Message);
+                    Message += $"执行异常。{exp.Message} \n";
+                }
             });
         }
 
