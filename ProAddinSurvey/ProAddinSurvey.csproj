@@ -130,6 +130,7 @@
     <AddInContent Include="DarkImages\AddInDesktop32.png" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\FileAccessHelper.cs" />
     <Compile Include="Common\BoolToVisibleConverter.cs" />
     <Compile Include="Common\ExcelHelper.cs" />
     <Compile Include="Common\GPToolHelper.cs" />
@@ -144,6 +145,7 @@
     <Compile Include="UI\CustomButton.cs" />
     <Compile Include="UI\GpToolButton.cs" />
     <Compile Include="UI\MapsComboBox.cs" />
+    <Compile Include="ViewModels\AssignMapVM.cs" />
     <Compile Include="ViewModels\ConstructMapVM.cs" />
     <Compile Include="ViewModels\DataSourceLayerItem.cs" />
     <Compile Include="ViewModels\DataSourceVM.cs" />

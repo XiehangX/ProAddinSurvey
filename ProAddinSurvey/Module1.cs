@@ -26,6 +26,7 @@ namespace ProAddinSurvey
         private static Module1 _this = null;
         public ConstructMapVM ConstructMapVM;
         public DataSourceVM DataSourceVM;
+        public AssignMapVM AssignMapVM;
 
         /// <summary>
         /// Retrieve the singleton instance to this module here

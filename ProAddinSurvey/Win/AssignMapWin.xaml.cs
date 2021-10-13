@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProAddinSurvey.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,12 @@ namespace ProAddinSurvey.Win
     /// </summary>
     public partial class AssignMapWin : ArcGIS.Desktop.Framework.Controls.ProWindow
     {
+        AssignMapVM vm = new AssignMapVM();
         public AssignMapWin()
         {
             InitializeComponent();
+            this.DataContext = vm;
+            Module1.Current.AssignMapVM = vm;
         }
     }
 }

@@ -4,9 +4,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:common="clr-namespace:ProAddinSurvey.Common"
         xmlns:extensions="clr-namespace:ArcGIS.Desktop.Extensions;assembly=ArcGIS.Desktop.Extensions"
+        xmlns:FrameworkControls="clr-namespace:ArcGIS.Desktop.Framework.Controls;assembly=ArcGIS.Desktop.Framework"     
         mc:Ignorable="d"
-        Title="AssignMapWin" Height="300" Width="300"
+        Title="图斑赋值" Height="400" Width="500" MinWidth="400" MinHeight="200"
         WindowStartupLocation="CenterOwner"
     >
     <controls:ProWindow.Resources>
@@ -14,9 +16,74 @@
             <ResourceDictionary.MergedDictionaries>
                 <extensions:DesignOnlyResourceDictionary Source="pack://application:,,,/ArcGIS.Desktop.Framework;component\Themes\Default.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <common:BoolToVisibleConverter x:Key="boolToVisibilityConverter"/>
+            <Style TargetType="Label">
+                <Setter Property="HorizontalAlignment" Value="Left" />
+                <!--<Setter Property="VerticalAlignment" Value="Center" />-->
+            </Style>
+            <Style TargetType="TextBox">
+                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                <!--<Setter Property="VerticalAlignment" Value="Center" />-->
+                <Setter Property="IsReadOnly" Value="True" />
+            </Style>
+            <Style TargetType="Button">
+                <Setter Property="Margin" Value="0" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderBrush" Value="Transparent" />
+            </Style>
+            <Style TargetType="Image">
+                <Setter Property="Source" Value="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericOpen16.png" />
+                <Setter Property="Stretch" Value="None" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
         </ResourceDictionary>
     </controls:ProWindow.Resources>
-    <Grid>
+    <Grid Margin="10">
 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Row="0" Grid.Column="0" Content="监测图斑:"/>
+        <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding LayerPath}" />
+        <Button Grid.Row="1" Grid.Column="1" Command="{Binding BrowseLayerCommand}" CommandParameter="LayerPath">
+            <Image />
+        </Button>
+
+        <Label Grid.Row="2" Grid.Column="0" Content="属性表文件:"/>
+        <TextBox Grid.Row="3" Grid.Column="0" Text="{Binding FilePath}" />
+        <Button Grid.Row="3" Grid.Column="1" Command="{Binding BrowseFileCommand}" CommandParameter="FilePath" >
+            <Image />
+        </Button>
+
+        <Label Grid.Row="4" Grid.Column="0" Content="输出路径:"/>
+        <TextBox Grid.Row="5" Grid.Column="0" Text="{Binding TargetPath}" />
+        <Button Grid.Row="5" Grid.Column="1" Command="{Binding BrowseGdbCommand}" CommandParameter="TargetPath" >
+            <Image />
+        </Button>
+
+
+        <FrameworkControls:MessageLabel Grid.Row="6" Grid.ColumnSpan="2" Content="{Binding Message}" Severity="High" MessageType="Information"
+                                    HorizontalAlignment="Stretch" CanClose="False"
+                                    Visibility="{Binding Path=HasMessage, Converter={StaticResource boolToVisibilityConverter}, Mode=OneWay}" />
+        
+        <StackPanel Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" >
+            <Button IsDefault="True" Margin="5"  Width="80" 
+                    Command="{Binding ApplyCommand}" CommandParameter="{Binding ElementName=ConstructMapWin}" 
+                    Style="{DynamicResource Esri_Button}">
+                确 定
+            </Button>
+        </StackPanel>
     </Grid>
 </controls:ProWindow>
