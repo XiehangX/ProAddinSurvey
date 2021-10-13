@@ -130,6 +130,17 @@
     <AddInContent Include="DarkImages\AddInDesktop32.png" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UI\ExportGDB.cs" />
+    <Compile Include="UI\OutputFolderButton.cs" />
+    <Compile Include="UI\SaveEditButton.cs" />
+    <Compile Include="UI\BackwardButton.cs" />
+    <Compile Include="UI\FalseButton.cs" />
+    <Compile Include="UI\ForwardButton.cs" />
+    <Compile Include="UI\PauseButton.cs" />
+    <Compile Include="UI\StartButton.cs" />
+    <Compile Include="UI\TrueButton.cs" />
+    <Compile Include="UI\TrueUsefulButton.cs" />
+    <Compile Include="UI\TrueUselessButton.cs" />
     <Compile Include="Common\FileAccessHelper.cs" />
     <Compile Include="Common\BoolToVisibleConverter.cs" />
     <Compile Include="Common\ExcelHelper.cs" />

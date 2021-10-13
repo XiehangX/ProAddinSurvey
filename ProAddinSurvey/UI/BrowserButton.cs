@@ -21,12 +21,12 @@ namespace ProAddinSurvey.UI
 {
     internal class BrowserButton : Button
     {
-        protected override void OnClick()
+        
+        protected async override void OnClick()
         {
             OpenItemDialog pathDialog = new OpenItemDialog()
             {
                 Title = "选择图层",
-                //InitialLocation = @"C:\Data\",
                 MultiSelect = false,
                 Filter = ItemFilters.composite_addToMap
             };
@@ -37,11 +37,36 @@ namespace ProAddinSurvey.UI
                 IEnumerable<Item> selectedItems = pathDialog.Items;
                 foreach (Item selectedItem in selectedItems)
                 {
-                    //TxtUri.Text = selectedItem.Path;
                     MessageBox.Show(selectedItem.Path);
+                    Module1.url = selectedItem.Path.ToString();
                 }
             }
+            Module1.mapPreorder = MapView.Active.Map;
+
+            Module1.lyr = await AddLayer(Module1.url, Module1.mapPreorder);
+            Module1.flyr = await GetFeatureLayer(Module1.lyr);
+
             //this.Topmost = true;
         }
+
+        public Task<Layer> AddLayer(string uri, Map map)
+        {
+            return QueuedTask.Run(() =>
+            {
+                return LayerFactory.Instance.CreateLayer(new Uri(uri), map);
+            });
+        }
+
+        public Task<FeatureLayer> GetFeatureLayer(Layer lyr)
+        {
+            return QueuedTask.Run(() =>
+            {
+                if (lyr is ServiceLayer) return null;
+                if (lyr is ILayerContainer)
+                    return ((ILayerContainer)lyr).GetLayersAsFlattenedList()[0] as FeatureLayer;
+                return lyr as FeatureLayer;
+            });
+        }
+
     }
 }

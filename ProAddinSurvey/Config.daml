@@ -1,5 +1,6 @@
-﻿<ArcGIS defaultAssembly="ProAddinSurvey.dll" defaultNamespace="ProAddinSurvey" xmlns="http://schemas.esri.com/DADF/Registry" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://schemas.esri.com/DADF/Registry file:///C:/Program%20Files/ArcGIS/Pro/bin/ArcGIS.Desktop.Framework.xsd">
-  <AddInInfo id="{0c6142bf-d430-4a43-becc-6381a1826563}" version="1.0" desktopVersion="2.7">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArcGIS defaultAssembly="ProAddinSurvey.dll" defaultNamespace="ProAddinSurvey" xmlns="http://schemas.esri.com/DADF/Registry" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://schemas.esri.com/DADF/Registry file:///C:/Program%20Files/ArcGIS/Pro/bin/ArcGIS.Desktop.Framework.xsd">
+  <AddInInfo id="{0c6142bf-d430-4a43-becc-6381a1826563}" version="1.0" desktopVersion="2.7.26828">
     <Name>自然资源综合调查扩展</Name>
     <Description>监测所辖区域内自然资源的变化合规性</Description>
     <Image>Images\AddinDesktop32.png</Image>
@@ -16,6 +17,7 @@
         <tab id="ProAddinSurvey_Tab1" caption="综合调查扩展-真伪判断" keytip="T1">
           <group refID="ProAddinSurvey_Group1" />
           <group refID="ProAddinSurvey_Group2" />
+          <group refID="ProAddinSurvey_Group7" />
         </tab>
         <tab id="ProAddinSurvey_Tab2" caption="综合调查扩展-外业指导图斑" keytip="T2">
           <group refID="ProAddinSurvey_Group3" />
@@ -24,6 +26,7 @@
         <tab id="ProAddinSurvey_Tab3" caption="综合调查扩展-调查结果核实" keytip="T3">
           <group refID="ProAddinSurvey_Group5" />
           <group refID="ProAddinSurvey_Group6" />
+          <group refID="ProAddinSurvey_Group8" />
         </tab>
       </tabs>
       <groups>
@@ -33,12 +36,23 @@
           <toolbar refID="ProAddinSurvey_ToolbarChangedMaplayer" size="small" />
         </group>
         <group id="ProAddinSurvey_Group2" caption="真伪判断" keytip="G2">
-          <button refID="ProAddinSurvey_UI_CustomButton_Start" size="large" />
-          <button refID="ProAddinSurvey_UI_CustomButton_Pause" size="large" />
-          <button refID="ProAddinSurvey_UI_BackwardButton" size="middle" />
+          <!--<button refID="ProAddinSurvey_UI_CustomButton_Start" size="large" />
+          <button refID="ProAddinSurvey_UI_CustomButton_Pause" size="large" />-->
+          <button refID="ProAddinSurvey_UI_StartButton" size="large" />
+          <button refID="ProAddinSurvey_UI_PauseButton" size="large" />
+          <!--<button refID="ProAddinSurvey_UI_BackwardButton" size="middle" />
+          <button refID="ProAddinSurvey_UI_ForwardButton" size="middle" />-->
           <button refID="ProAddinSurvey_UI_ForwardButton" size="middle" />
+          <button refID="ProAddinSurvey_UI_BackwardButton" size="middle" />
+          <!--<button refID="ProAddinSurvey_UI_TrueButton" size="large" />
+          <button refID="ProAddinSurvey_UI_FalseButton" size="large" />-->
           <button refID="ProAddinSurvey_UI_TrueButton" size="large" />
           <button refID="ProAddinSurvey_UI_FalseButton" size="large" />
+        </group>
+        <group id="ProAddinSurvey_Group7" caption="判读成果入库" keytip="G7">
+          <button refID="ProAddinSurvey_SaveEditButton" size="large" />
+          <button refID="ProAddinSurvey_OutputFolderButton" size="large" />
+          <button refID="ProAddinSurvey_ExportGDB" size="large" />
         </group>
         <group id="ProAddinSurvey_Group3" caption="数据源设置" keytip="G3">
           <!--<button refID="ProAddinSurvey_UI_DataSourceButton" size="large" />
@@ -51,13 +65,23 @@
         </group>
         <group id="ProAddinSurvey_Group5" caption="外业调查结果上图" keytip="G5">
           <button refID="ProAddinSurvey_GpTool_GeoTaggedPhotosToPoints" size="large" />
+          <button refID="ProAddinSurvey_UI_BrowserButton2" size="large" />
         </group>
         <group id="ProAddinSurvey_Group6" caption="外业调查结果核实" keytip="G6">
-          <button refID="ProAddinSurvey_UI_BackwardButton" size="middle" />
+          <button refID="ProAddinSurvey_UI_StartButton2" size="large" />
+          <button refID="ProAddinSurvey_UI_PauseButton2" size="large" />
           <button refID="ProAddinSurvey_UI_ForwardButton" size="middle" />
-          <button refID="ProAddinSurvey_UI_TrueUsefulButton" size="large" />
+          <button refID="ProAddinSurvey_UI_BackwardButton" size="middle" />
+          <!--<button refID="ProAddinSurvey_UI_TrueUsefulButton" size="large" />
+          <button refID="ProAddinSurvey_UI_TrueUselessButton" size="large" />-->
           <button refID="ProAddinSurvey_UI_TrueUselessButton" size="large" />
-          <button refID="ProAddinSurvey_UI_FalseButton" size="large" />
+          <button refID="ProAddinSurvey_UI_TrueUsefulButton" size="large" />
+          <button refID="ProAddinSurvey_UI_FalseButton2" size="large" />
+        </group>
+        <group id="ProAddinSurvey_Group8" caption="核实成果入库" keytip="G8">
+          <button refID="ProAddinSurvey_SaveEditButton2" size="large" />
+          <button refID="ProAddinSurvey_OutputFolderButton2" size="large" />
+          <button refID="ProAddinSurvey_ExportGDB2" size="large" />
         </group>
       </groups>
       <controls>
@@ -67,58 +91,91 @@
         <editBox id="ProAddinSurvey_EditBox1" caption="EditBox1" extendedCaption="Extended Caption." className="ProAddinSurvey.EditBox1" keytip="EB" sizeString="12345678901234567">
           <tooltip heading="编辑对话框">编辑对话框<disabledText /></tooltip>
         </editBox>
-        <button id="ProAddinSurvey_UI_ForwardButton" caption="下一个" className="ProAddinSurvey.UI.CustomButton" keytip="FWB" loadOnClick="true" smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericBlueRightArrowLongTail16.png" largeImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericBlueRightArrowLongTail32.png">
+        <button id="ProAddinSurvey_UI_ForwardButton" caption="下一个" className="ProAddinSurvey.UI.ForwardButton" condition="state1" keytip="FWB" loadOnClick="true" smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericBlueRightArrowLongTail16.png" largeImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericBlueRightArrowLongTail32.png">
           <tooltip heading="Tooltip Heading">Tooltip text<disabledText /></tooltip>
         </button>
-        <button id="ProAddinSurvey_UI_BackwardButton" caption="上一个" className="ProAddinSurvey.UI.CustomButton" keytip="BWB" loadOnClick="true" smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericBlueLeftArrowLongTail16.png" largeImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericBlueLeftArrowLongTail32.png">
+        <button id="ProAddinSurvey_UI_BackwardButton" caption="上一个" className="ProAddinSurvey.UI.BackwardButton" condition="state1" keytip="BWB" loadOnClick="true" smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericBlueLeftArrowLongTail16.png" largeImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericBlueLeftArrowLongTail32.png">
           <tooltip heading="Tooltip Heading">Tooltip text<disabledText /></tooltip>
         </button>
-        <button id="ProAddinSurvey_UI_BrowserButton" caption="选 择" className="ProAddinSurvey.UI.BrowserButton" keytip="BSB" loadOnClick="true" smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/AddContent16.png" largeImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/AddContent32.png">
+        <button id="ProAddinSurvey_UI_BrowserButton" caption="选 择" className="ProAddinSurvey.UI.BrowserButton" condition="state0" keytip="BSB" loadOnClick="true" smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/AddContent16.png" largeImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/AddContent32.png">
           <tooltip heading="Tooltip Heading">Tooltip text<disabledText /></tooltip>
         </button>
-        <button id="ProAddinSurvey_UI_TrueButton" caption="真变化" className="ProAddinSurvey.UI.CustomButton" keytip="RB" loadOnClick="true" smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericCheckMark16.png" largeImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericCheckMark32.png">
+        <button id="ProAddinSurvey_UI_BrowserButton2" caption="选择核实数据" className="ProAddinSurvey.UI.BrowserButton" condition="state0" keytip="BSB" loadOnClick="true" smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/AddContent16.png" largeImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/AddContent32.png">
           <tooltip heading="Tooltip Heading">Tooltip text<disabledText /></tooltip>
         </button>
-        <button id="ProAddinSurvey_UI_FalseButton" caption="伪变化" className="ProAddinSurvey.UI.CustomButton" keytip="WB" loadOnClick="true" smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericDeleteRed16.png" largeImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericDeleteRed32.png">
+        <button id="ProAddinSurvey_UI_TrueButton" caption="真变化" className="ProAddinSurvey.UI.TrueButton" condition="state1" keytip="RB" loadOnClick="true" smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericCheckMark16.png" largeImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericCheckMark32.png">
           <tooltip heading="Tooltip Heading">Tooltip text<disabledText /></tooltip>
         </button>
-        <button id="ProAddinSurvey_UI_TrueUsefulButton" caption="真变化 且符合要求" className="ProAddinSurvey.UI.CustomButton" keytip="TUFB" loadOnClick="true" smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericCheckMark16.png" largeImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericCheckMark32.png">
-          <tooltip heading="Tooltip Heading">
-            Tooltip text<disabledText /></tooltip>
-        </button>
-        <button id="ProAddinSurvey_UI_TrueUselessButton" caption="真变化 但不符合要求" className="ProAddinSurvey.UI.CustomButton" keytip="TULB" loadOnClick="true" smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericExport16.png" largeImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericExport32.png">
+        <button id="ProAddinSurvey_UI_FalseButton" caption="伪变化" className="ProAddinSurvey.UI.FalseButton" condition="state1" keytip="WB" loadOnClick="true" smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericDeleteRed16.png" largeImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericDeleteRed32.png">
           <tooltip heading="Tooltip Heading">Tooltip text<disabledText /></tooltip>
         </button>
+        <button id="ProAddinSurvey_UI_TrueUsefulButton" caption="真变化 且符合要求" className="ProAddinSurvey.UI.TrueUsefulButton" keytip="TUFB" loadOnClick="true" smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericCheckMark16.png" largeImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericCheckMark32.png">
+          <tooltip heading="Tooltip Heading">Tooltip text<disabledText /></tooltip>
+        </button>
+        <button id="ProAddinSurvey_UI_TrueUselessButton" caption="真变化 但不符合要求" className="ProAddinSurvey.UI.TrueUselessButton" keytip="TULB" loadOnClick="true" smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericExport16.png" largeImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericExport32.png">
+          <tooltip heading="Tooltip Heading">Tooltip text<disabledText /></tooltip>
+        </button>
+        <button id="ProAddinSurvey_UI_FalseButton2" caption="伪变化" className="ProAddinSurvey.UI.FalseButton" condition="state1" keytip="WB" loadOnClick="true" smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericDeleteRed16.png" largeImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericDeleteRed32.png">
+          <tooltip heading="Tooltip Heading">Tooltip text<disabledText /></tooltip>
+        </button>
+        
         <button id="ProAddinSurvey_UI_DataSourceButton" caption="数据源设置" className="ProAddinSurvey.UI.CustomButton" keytip="DSB" loadOnClick="true" smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/Geodatabase16.png" largeImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/Geodatabase32.png">
           <tooltip heading="Tooltip Heading">Tooltip text<disabledText /></tooltip>
         </button>
-        <button id="ProAddinSurvey_UI_CustomButton_Start" caption="启动" className="ProAddinSurvey.UI.CustomButton" keytip="CBS" loadOnClick="true" smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericRun16.png" largeImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericRun32.png">
+        <button id="ProAddinSurvey_UI_StartButton" caption="启动" className="ProAddinSurvey.UI.StartButton" condition="state0" keytip="CBS" loadOnClick="true" smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericRun16.png" largeImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericRun32.png">
           <tooltip heading="Tooltip Heading">Tooltip text<disabledText /></tooltip>
         </button>
-        <button id="ProAddinSurvey_UI_CustomButton_Pause" caption="暂停" className="ProAddinSurvey.UI.CustomButton" keytip="CBP" loadOnClick="true" smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericLockYellow16.png" largeImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericLockYellow32.png">
-          <tooltip heading="Tooltip Heading">
-            Tooltip text<disabledText /></tooltip>
+        <button id="ProAddinSurvey_UI_PauseButton" caption="暂停" className="ProAddinSurvey.UI.PauseButton" condition="state1" keytip="CBP" loadOnClick="true" smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericLockYellow16.png" largeImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericLockYellow32.png">
+          <tooltip heading="Tooltip Heading">Tooltip text<disabledText /></tooltip>
         </button>
         <button id="ProAddinSurvey_GpTool_GeoTaggedPhotosToPoints" caption="地理标记照片转点" className="ProAddinSurvey.UI.GpToolButton" keytip="GTPTP" loadOnClick="true" smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/ElementPictureSymbol16.png" largeImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/ElementPictureSymbol32.png">
-          <tooltip heading="Tooltip Heading">
-            Tooltip text<disabledText /></tooltip>
-        </button>
-        <comboBox id="ProAddinSurvey_PreorderMapComboBox" caption="前序影像地图" className="ProAddinSurvey.UI.MapsComboBox" keytip="PREOM" itemWidth="140" extendedCaption="Extended Caption" isEditable="false" isReadOnly="true" resizable="true">
-          <tooltip heading="Tooltip Heading">
-            Tooltip text<disabledText /></tooltip>
-        </comboBox>
-        <comboBox id="ProAddinSurvey_PostorderMapComboBox" caption="后序影像地图" className="ProAddinSurvey.UI.MapsComboBox" keytip="POSTOM" itemWidth="140" extendedCaption="Extended Caption" isEditable="false" isReadOnly="true" resizable="true">
-          <tooltip heading="Tooltip Heading">
-            Tooltip text<disabledText /></tooltip>
-        </comboBox>
-        <button id="ProAddinSurvey_Win_ConstructMapWin" caption="图斑构建" className="ProAddinSurvey.Win.ShowConstructMapWin" keytip="CMW" loadOnClick="true" smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/TableAddField16.png" largeImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/TableAddField32.png">
           <tooltip heading="Tooltip Heading">Tooltip text<disabledText /></tooltip>
+        </button>
+        <button id="ProAddinSurvey_UI_StartButton2" caption="启动" className="ProAddinSurvey.UI.StartButton" condition="state0" keytip="CBS" loadOnClick="true" smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericRun16.png" largeImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericRun32.png">
+          <tooltip heading="Tooltip Heading">Tooltip text<disabledText /></tooltip>
+        </button>
+        <button id="ProAddinSurvey_UI_PauseButton2" caption="暂停" className="ProAddinSurvey.UI.PauseButton" condition="state1" keytip="CBP" loadOnClick="true" smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericLockYellow16.png" largeImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericLockYellow32.png">
+          <tooltip heading="Tooltip Heading">Tooltip text<disabledText /></tooltip>
+        </button>
+        <comboBox id="ProAddinSurvey_PreorderMapComboBox" caption="前序影像地图" className="ProAddinSurvey.UI.MapsComboBox" condition="state0" keytip="PREOM" itemWidth="140" extendedCaption="Extended Caption" isEditable="false" isReadOnly="true" resizable="true">
+          <tooltip heading="Tooltip Heading">
+            Tooltip text<disabledText /></tooltip>
+        </comboBox>
+        <comboBox id="ProAddinSurvey_PostorderMapComboBox" caption="后序影像地图" className="ProAddinSurvey.UI.MapsComboBox" condition="state0" keytip="POSTOM" itemWidth="140" extendedCaption="Extended Caption" isEditable="false" isReadOnly="true" resizable="true">
+          <tooltip heading="Tooltip Heading">Tooltip text<disabledText /></tooltip>
+        </comboBox>
+        <button id="ProAddinSurvey_SaveEditButton" caption="保存编辑" className="ProAddinSurvey.UI.SaveEditButton" loadOnClick="true" smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/EditingSaveEdits_B_16.png" largeImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/EditingSaveEdits_B_32.png">
+          <tooltip heading="Tooltip Heading">Tooltip text<disabledText /></tooltip>
+        </button>
+        <button id="ProAddinSurvey_OutputFolderButton" caption="选择导出文件夹" className="ProAddinSurvey.UI.OutputFolderButton" loadOnClick="true" smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericButtonBlue16.png" largeImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/FolderConnectionAdd32.png">
+          <tooltip heading="Tooltip Heading">将在所选文件夹下创建真伪变化gdb<disabledText /></tooltip>
+        </button>
+        <button id="ProAddinSurvey_ExportGDB" caption="导出GDB" className="ProAddinSurvey.UI.ExportGDB" loadOnClick="true" smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericButtonBlue16.png" largeImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/ExportFeatures32.png">
+          <tooltip heading="Tooltip Heading">导出两个GDB<disabledText /></tooltip>
+        </button>
+        <button id="ProAddinSurvey_SaveEditButton2" caption="保存编辑" className="ProAddinSurvey.UI.SaveEditButton" loadOnClick="true" smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/EditingSaveEdits_B_16.png" largeImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/EditingSaveEdits_B_32.png">
+          <tooltip heading="Tooltip Heading">Tooltip text<disabledText /></tooltip>
+        </button>
+        <button id="ProAddinSurvey_OutputFolderButton2" caption="选择导出文件夹" className="ProAddinSurvey.UI.OutputFolderButton" loadOnClick="true" smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericButtonBlue16.png" largeImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/FolderConnectionAdd32.png">
+          <tooltip heading="Tooltip Heading">将在所选文件夹下创建真伪变化gdb<disabledText /></tooltip>
+        </button>
+        <button id="ProAddinSurvey_ExportGDB2" caption="导出GDB" className="ProAddinSurvey.UI.ExportGDB" loadOnClick="true" smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericButtonBlue16.png" largeImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/ExportFeatures32.png">
+          <tooltip heading="Tooltip Heading">导出两个GDB<disabledText /></tooltip>
+        </button>
+        <button id="ProAddinSurvey_Win_ConstructMapWin" caption="图斑构建" className="ProAddinSurvey.Win.ShowConstructMapWin" keytip="CMW" loadOnClick="true" smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/TableAddField16.png" largeImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/TableAddField32.png">
+          <tooltip heading="Tooltip Heading">
+            Tooltip text<disabledText />
+          </tooltip>
         </button>
         <button id="ProAddinSurvey_Win_AssignMapWin" caption="图斑赋值" className="ProAddinSurvey.Win.ShowAssignMapWin" keytip="AMW" loadOnClick="true" smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/TableCalculateField16.png" largeImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/TableCalculateField32.png">
-          <tooltip heading="Tooltip Heading">Tooltip text<disabledText /></tooltip>
+          <tooltip heading="Tooltip Heading">
+            Tooltip text<disabledText />
+          </tooltip>
         </button>
         <button id="ProAddinSurvey_Win_DataSourceWin" caption="数据源" className="ProAddinSurvey.Win.ShowDataSourceWin" keytip="DSW" loadOnClick="true" smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/Geodatabase16.png" largeImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/Geodatabase32.png">
-          <tooltip heading="Tooltip Heading">Tooltip text<disabledText /></tooltip>
+          <tooltip heading="Tooltip Heading">
+            Tooltip text<disabledText />
+          </tooltip>
         </button>
       </controls>
       <toolbars>
