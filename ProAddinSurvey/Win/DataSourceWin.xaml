@@ -14,12 +14,8 @@
             <ResourceDictionary.MergedDictionaries>
                 <extensions:DesignOnlyResourceDictionary Source="pack://application:,,,/ArcGIS.Desktop.Framework;component\Themes\Default.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            <Style TargetType="Label">
-                <Setter Property="HorizontalAlignment" Value="Left" />
-                <!--<Setter Property="VerticalAlignment" Value="Center" />-->
-            </Style>
             <Style TargetType="TextBox">
-                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                <!--<Setter Property="HorizontalAlignment" Value="Stretch" />-->
                 <!--<Setter Property="VerticalAlignment" Value="Center" />-->
                 <Setter Property="IsReadOnly" Value="True" />
             </Style>
@@ -30,8 +26,6 @@
             </Style>
             <Style TargetType="Image">
                 <Setter Property="Source" Value="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericOpen16.png" />
-                <Setter Property="Stretch" Value="None" />
-                <Setter Property="VerticalAlignment" Value="Center" />
             </Style>
         </ResourceDictionary>
     </controls:ProWindow.Resources>

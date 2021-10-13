@@ -17,13 +17,7 @@
                 <extensions:DesignOnlyResourceDictionary Source="pack://application:,,,/ArcGIS.Desktop.Framework;component\Themes\Default.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <common:BoolToVisibleConverter x:Key="boolToVisibilityConverter"/>
-            <Style TargetType="Label">
-                <Setter Property="HorizontalAlignment" Value="Left" />
-                <!--<Setter Property="VerticalAlignment" Value="Center" />-->
-            </Style>
             <Style TargetType="TextBox">
-                <Setter Property="HorizontalAlignment" Value="Stretch" />
-                <!--<Setter Property="VerticalAlignment" Value="Center" />-->
                 <Setter Property="IsReadOnly" Value="True" />
             </Style>
             <Style TargetType="Button">
@@ -57,19 +51,19 @@
 
         <Label Grid.Row="0" Grid.Column="0" Content="监测图斑:"/>
         <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding LayerPath}" />
-        <Button Grid.Row="1" Grid.Column="1" Command="{Binding BrowseLayerCommand}" CommandParameter="LayerPath">
+        <Button Grid.Row="1" Grid.Column="1" Command="{Binding BrowseLayerCommand}">
             <Image />
         </Button>
 
         <Label Grid.Row="2" Grid.Column="0" Content="属性表文件:"/>
         <TextBox Grid.Row="3" Grid.Column="0" Text="{Binding FilePath}" />
-        <Button Grid.Row="3" Grid.Column="1" Command="{Binding BrowseFileCommand}" CommandParameter="FilePath" >
+        <Button Grid.Row="3" Grid.Column="1" Command="{Binding BrowseFileCommand}">
             <Image />
         </Button>
 
         <Label Grid.Row="4" Grid.Column="0" Content="输出路径:"/>
         <TextBox Grid.Row="5" Grid.Column="0" Text="{Binding TargetPath}" />
-        <Button Grid.Row="5" Grid.Column="1" Command="{Binding BrowseGdbCommand}" CommandParameter="TargetPath" >
+        <Button Grid.Row="5" Grid.Column="1" Command="{Binding BrowseGdbCommand}">
             <Image />
         </Button>
 

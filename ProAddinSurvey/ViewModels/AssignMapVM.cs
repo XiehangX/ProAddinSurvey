@@ -16,35 +16,6 @@ namespace ProAddinSurvey.ViewModels
 {
     public class AssignMapVM : PropertyChangedBase
     {
-        private ICommand _selectAttributeFileCommand;
-        /// <summary>
-        /// 选中属性表文件命令
-        /// </summary>
-        public ICommand SelectAttributeFileCommand
-        {
-            get
-            {
-                _selectAttributeFileCommand = new RelayCommand(() => SelectAttributeFileX());
-                return _selectAttributeFileCommand;
-            }
-        }
-
-
-        private RelayCommand _applyCommand;
-        /// <summary>
-        /// 确定
-        /// </summary>
-        public ICommand ApplyCommand
-        {
-            get
-            {
-                if (_applyCommand == null)
-                    _applyCommand = new RelayCommand(() => SaveChanges(), CanSaveChanges);
-
-                return _applyCommand;
-            }
-        }
-
 
         private string _layerPath;
         public string LayerPath
@@ -65,64 +36,41 @@ namespace ProAddinSurvey.ViewModels
             set { SetProperty(ref _filePath, value, () => FilePath); }
         }
 
-        private RelayCommand _browseLayerCommand;
-        public ICommand BrowseLayerCommand
+        public ICommand BrowseLayerCommand => new RelayCommand((param) =>
         {
-            get
-            {
-                if (_browseLayerCommand == null)
-                    _browseLayerCommand = new RelayCommand(BrowseLayerImpl, () => true);
-                return _browseLayerCommand;
-            }
-        }
-
-        private void BrowseLayerImpl(object param)
-        {
-            if (param == null)
-                return;
-
             IEnumerable<Item> items = FileAccessHelper.BrowsePolygonLayerInFgdb();
             if (items == null)
                 return;
             foreach (Item selectedItem in items)
             {
-                switch (param.ToString())
-                {
-                    case "LayerPath":
-                        LayerPath = selectedItem.Path;
-                        break;
-                }
+                LayerPath = selectedItem.Path;
+                break;
             }
-        }
+        }, () => true);
 
-        private RelayCommand _browseGdbCommand;
-        public ICommand BrowseGdbCommand
+        public ICommand BrowseGdbCommand => new RelayCommand((param) =>
         {
-            get
-            {
-                if (_browseGdbCommand == null)
-                    _browseGdbCommand = new RelayCommand(BrowseGdbImpl, () => true);
-                return _browseGdbCommand;
-            }
-        }
-        private void BrowseGdbImpl(object param)
-        {
-            if (param == null)
-                return;
-
             IEnumerable<Item> items = FileAccessHelper.BrowseFgdb();
             if (items == null)
                 return;
             foreach (Item selectedItem in items)
             {
-                switch (param.ToString())
-                {
-                    case "TargetPath":
-                        TargetPath = selectedItem.Path;
-                        break;
-                }
+                TargetPath = selectedItem.Path;
+                break;
             }
-        }
+        }, () => true);
+
+        public ICommand BrowseFileCommand => new RelayCommand((param) =>
+        {
+            IEnumerable<Item> items = FileAccessHelper.BrowseExcel();
+            if (items == null)
+                return;
+            foreach (Item selectedItem in items)
+            {
+                FilePath = selectedItem.Path;
+                break;
+            }
+        }, () => true);
 
         #region Message
         private string _message;
@@ -148,6 +96,21 @@ namespace ProAddinSurvey.ViewModels
             Message = "";
         }
         #endregion
+
+        private RelayCommand _applyCommand;
+        /// <summary>
+        /// 确定
+        /// </summary>
+        public ICommand ApplyCommand
+        {
+            get
+            {
+                if (_applyCommand == null)
+                    _applyCommand = new RelayCommand(() => SaveChanges(), CanSaveChanges);
+
+                return _applyCommand;
+            }
+        }
 
         private async void SaveChanges()
         {
@@ -220,41 +183,7 @@ namespace ProAddinSurvey.ViewModels
             });
         }
 
-        private bool CanSaveChanges() => !string.IsNullOrEmpty(LayerPath) && !string.IsNullOrEmpty(LayerPath) && !string.IsNullOrEmpty(LayerPath);
+        private bool CanSaveChanges() => !string.IsNullOrEmpty(LayerPath) && !string.IsNullOrEmpty(FilePath) && !string.IsNullOrEmpty(TargetPath);
 
-        private void SelectAttributeFileX()
-        {
-            var bpf = new BrowseProjectFilter("esri_browseDialogFilters_browseFiles")
-            {
-                FileExtension = "*.xls;*.xlsx;",//*.csv;
-                BrowsingFilesMode = true,
-                Name = "属性表模板 (*.xls;*.xlsx;)" //*.csv;
-            };
-
-            OpenItemDialog dlg = new OpenItemDialog()
-            {
-                Title = "选择属性表文件",
-                //InitialLocation = @"C:\Data\",
-                MultiSelect = true,
-                BrowseFilter = bpf
-            };
-            bool? ok = dlg.ShowDialog();
-
-            if (ok == true)
-            {
-                ClearMessage();
-                string message = string.Empty;
-
-                IEnumerable<Item> selectedItems = dlg.Items;
-                foreach (Item item in selectedItems)
-                {
-                    //if (_attributeFiles.FirstOrDefault(i => i.FilePath == item.Path) == null)
-                    //    _attributeFiles.Add(new AttributeFileItem(item));
-                    //else
-                    //    message += $"{item.Name} 已存在;\n";
-                }
-                ShowMessage(message);
-            }
-        }
     }
 }
