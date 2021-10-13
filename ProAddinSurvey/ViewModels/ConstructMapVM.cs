@@ -105,26 +105,17 @@ namespace ProAddinSurvey.ViewModels
         {
             if (param == null)
                 return;
-            OpenItemDialog pathDialog = new OpenItemDialog()
-            {
-                Title = "选择图层",
-                //InitialLocation = @"C:\Data\",
-                MultiSelect = false,
-                Filter = ItemFilters.composite_addToMap
-            };
-            bool? ok = pathDialog.ShowDialog();
 
-            if (ok == true)
+            IEnumerable<Item> items = FileAccessHelper.BrowsePolygonLayerInFgdb();
+            if (items == null)
+                return;
+            foreach (Item selectedItem in items)
             {
-                IEnumerable<Item> selectedItems = pathDialog.Items;
-                foreach (Item selectedItem in selectedItems)
+                switch (param.ToString())
                 {
-                    switch (param.ToString()) 
-                    {
-                        case "ItemPath":
-                            ItemPath = selectedItem.Path;
-                            break;
-                    }
+                    case "ItemPath":
+                        ItemPath = selectedItem.Path;
+                        break;
                 }
             }
         }
@@ -227,68 +218,25 @@ namespace ProAddinSurvey.ViewModels
 
         private bool CanSaveChanges() => !string.IsNullOrEmpty(ItemPath) && _attributeFiles.Count > 0;
 
-        //private void SelectAttributeFile()
-        //{
-        //    OpenFileDialog dlg = new OpenFileDialog()
-        //    {
-        //        Title = "选择属性表文件",
-        //        DefaultExt = "*.xls;*.xlsx",
-        //        Multiselect = true,
-        //        Filter = "Excel (*.xls;*.xlsx)|*.xls;*.xlsx|Csv (*.csv)|*.csv|All files (*.*)|*.*"
-        //    };
-        //    bool? ok = dlg.ShowDialog();
-
-        //    if (ok == true)
-        //    {
-        //        ClearMessage();
-        //        string message = string.Empty;
-
-        //        string[] items = dlg.FileNames;
-        //        foreach (string item in items)
-        //        {
-        //            FileInfo info = new FileInfo(item);
-        //            if (_attributeFiles.FirstOrDefault(i => i.FilePath == info.FullName) == null)
-        //                _attributeFiles.Add(new AttributeFileItem(info.Name, info.FullName));
-        //            else
-        //                message += $"{info.Name} 已存在;\n";
-        //        }
-        //        ShowMessage(message);
-        //    }
-        //}
         private void SelectAttributeFileX()
         {
-            var bpf = new BrowseProjectFilter("esri_browseDialogFilters_browseFiles")
-            {
-                FileExtension = "*.xls;*.xlsx;",//*.csv;
-                BrowsingFilesMode = true,
-                Name = "属性表模板 (*.xls;*.xlsx;)" //*.csv;
-            };
 
-            OpenItemDialog dlg = new OpenItemDialog()
-            {
-                Title = "选择属性表文件",
-                //InitialLocation = @"C:\Data\",
-                MultiSelect = true,
-                BrowseFilter = bpf
-            };
-            bool? ok = dlg.ShowDialog();
+            ClearMessage();
 
-            if (ok == true)
-            {
-                ClearMessage();
-                string message = string.Empty;
+            IEnumerable<Item> items = FileAccessHelper.BrowseExcel();
+            if (items == null)
+                return;
 
-                IEnumerable<Item> selectedItems = dlg.Items;
-                foreach (Item item in selectedItems)
-                {
-                    //FileInfo info = new FileInfo(item);
-                    if (_attributeFiles.FirstOrDefault(i => i.FilePath == item.Path) == null)
-                        _attributeFiles.Add(new AttributeFileItem(item));
-                    else
-                        message += $"{item.Name} 已存在;\n";
-                }
-                ShowMessage(message);
+            string message = string.Empty;
+
+            foreach (Item item in items)
+            {
+                if (_attributeFiles.FirstOrDefault(i => i.FilePath == item.Path) == null)
+                    _attributeFiles.Add(new AttributeFileItem(item));
+                else
+                    message += $"{item.Name} 已存在;\n";
             }
+            ShowMessage(message);
         }
 
     }

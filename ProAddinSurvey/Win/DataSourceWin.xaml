@@ -14,17 +14,17 @@
             <ResourceDictionary.MergedDictionaries>
                 <extensions:DesignOnlyResourceDictionary Source="pack://application:,,,/ArcGIS.Desktop.Framework;component\Themes\Default.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            <!--<Style TargetType="Label">
+            <Style TargetType="Label">
                 <Setter Property="HorizontalAlignment" Value="Left" />
-                <Setter Property="VerticalAlignment" Value="Center" />
-            </Style>-->
+                <!--<Setter Property="VerticalAlignment" Value="Center" />-->
+            </Style>
             <Style TargetType="TextBox">
                 <Setter Property="HorizontalAlignment" Value="Stretch" />
-                <Setter Property="VerticalAlignment" Value="Center" />
+                <!--<Setter Property="VerticalAlignment" Value="Center" />-->
                 <Setter Property="IsReadOnly" Value="True" />
             </Style>
             <Style TargetType="Button">
-                <Setter Property="Margin" Value="2,5" />
+                <Setter Property="Margin" Value="2,3" />
                 <Setter Property="Background" Value="Transparent" />
                 <Setter Property="BorderBrush" Value="Transparent" />
             </Style>

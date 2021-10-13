@@ -9,18 +9,16 @@
         xmlns:extensions="clr-namespace:ArcGIS.Desktop.Extensions;assembly=ArcGIS.Desktop.Extensions"
             xmlns:FrameworkControls="clr-namespace:ArcGIS.Desktop.Framework.Controls;assembly=ArcGIS.Desktop.Framework"     
         mc:Ignorable="d"
-        Title="图斑构建" Height="400" Width="500" MinWidth="300"
+        Title="图斑构建" Height="400" Width="500" MinWidth="400" MinHeight="200"
         WindowStartupLocation="CenterOwner"
     >
     <controls:ProWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <extensions:DesignOnlyResourceDictionary Source="pack://application:,,,/ArcGIS.Desktop.Framework;component\Themes\Default.xaml"/>
-                <ResourceDictionary>
-                    <common:BoolToVisibleConverter x:Key="boolToVisibilityConverter"/>
-                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
 
+            <common:BoolToVisibleConverter x:Key="boolToVisibilityConverter"/>
             <DataTemplate x:Key="AttributeFileItemTemplate" DataType="{x:Type vm:AttributeFileItem}">
                 <Border BorderBrush="{DynamicResource Esri_BorderBrush}" BorderThickness="1">
                     <Grid>
@@ -80,7 +78,7 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Text="监测图斑:" Grid.Row="0" Grid.Column="0"></TextBlock>
+        <Label Content="监测图斑:" Grid.Row="0" Grid.Column="0"></Label>
         <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding ItemPath}" HorizontalAlignment="Stretch" IsReadOnly="True"/>
         <Button Grid.Row="1" Grid.Column="1" Command="{Binding BrowseCommand}" CommandParameter="ItemPath" Margin="0,0,0,0" Background="Transparent" BorderBrush="Transparent">
             <Image Source="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericOpen16.png" Stretch="None" VerticalAlignment="Center" />
