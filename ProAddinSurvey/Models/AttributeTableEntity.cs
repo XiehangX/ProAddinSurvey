@@ -17,8 +17,11 @@ namespace ProAddinSurvey.Models
         public string 小数位数 { get; set; }
         public string 值域 { get; set; }
         public string 约束条件 { get; set; }
+        public string 模式 { get; set; }
+        public string 计算方法 { get; set; }
         public string 数据来源 { get; set; }
         public string 对应字段 { get; set; }
+        public string 描述 { get; set; }
 
         /// <summary>
         /// 转为 AddField 的字段描述

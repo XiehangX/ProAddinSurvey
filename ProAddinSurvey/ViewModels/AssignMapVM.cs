@@ -9,6 +9,7 @@ using ProAddinSurvey.Common;
 using ProAddinSurvey.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -23,6 +24,29 @@ namespace ProAddinSurvey.ViewModels
     /// </summary>
     public class AssignMapVM : PropertyChangedBase
     {
+        private ObservableCollection<DataSourceLayerItem> _dataSourceLayers = new ObservableCollection<DataSourceLayerItem>();
+        /// <summary>
+        /// 数据源图层集合
+        /// </summary>
+        public ObservableCollection<DataSourceLayerItem> DataSourceLayers
+        {
+            get { return _dataSourceLayers; }
+
+        }
+
+        private AttributeFileItem _selectedDataSourceLayerItem;
+        /// <summary>
+        /// 选中的属性表文件项
+        /// </summary>
+        public AttributeFileItem SelectedDataSourceLayerItem
+        {
+
+            get { return _selectedDataSourceLayerItem; }
+            set
+            {
+                SetProperty(ref _selectedDataSourceLayerItem, value, () => SelectedDataSourceLayerItem);
+            }
+        }
 
         private string _layerPath;
         /// <summary>
@@ -31,7 +55,10 @@ namespace ProAddinSurvey.ViewModels
         public string LayerPath
         {
             get { return _layerPath; }
-            set { SetProperty(ref _layerPath, value, () => LayerPath); }
+            set { 
+                SetProperty(ref _layerPath, value, () => LayerPath);
+                //NotifyPropertyChanged(nameof(LayerPath));
+            }
         }
         private string _targetPath;
         /// <summary>
@@ -52,7 +79,7 @@ namespace ProAddinSurvey.ViewModels
             set { SetProperty(ref _filePath, value, () => FilePath); }
         }
         /// <summary>
-        /// 选择图层
+        /// 选择监测图层
         /// </summary>
         public ICommand BrowseLayerCommand => new RelayCommand((param) =>
         {
@@ -90,9 +117,40 @@ namespace ProAddinSurvey.ViewModels
             foreach (Item selectedItem in items)
             {
                 FilePath = selectedItem.Path;
+                InitializeDataSourceUI(FilePath);
                 break;
             }
         }, () => true);
+
+
+        private void InitializeDataSourceUI(string filePath)
+        {
+            ClearMessage();
+            try
+            {
+                int rowHeader = 3;
+                DataSourceLayers.Clear();
+                using (DataTable dt = ExcelHelper.LoadTableFirst(filePath, rowHeader))
+                {
+                    List<AttributeTableEntity> list = ExcelHelper.DataTableToList<AttributeTableEntity>(dt);
+
+                    foreach (AttributeTableEntity field in list)
+                    {
+                        if (string.IsNullOrEmpty(field.模式) || string.IsNullOrEmpty(field.数据来源) || field.模式 != "A")
+                            continue;
+
+                        if (DataSourceLayers.FirstOrDefault(i => i.Label == field.数据来源) == null)
+                            DataSourceLayers.Add(new DataSourceLayerItem(field.数据来源, string.Empty, string.Empty));
+                    }
+                }
+            }
+            catch (Exception exp)
+            {
+                MessageBox.Show(exp.Message);
+                Message += $"执行异常。{exp.Message} \n";
+            }
+            //ShowMessage(message);
+        }
 
         #region Message
         private string _message;

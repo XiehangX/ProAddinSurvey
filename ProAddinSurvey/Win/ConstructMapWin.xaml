@@ -7,7 +7,7 @@
         xmlns:vm="clr-namespace:ProAddinSurvey.ViewModels"
         xmlns:common="clr-namespace:ProAddinSurvey.Common"
         xmlns:extensions="clr-namespace:ArcGIS.Desktop.Extensions;assembly=ArcGIS.Desktop.Extensions"
-            xmlns:FrameworkControls="clr-namespace:ArcGIS.Desktop.Framework.Controls;assembly=ArcGIS.Desktop.Framework"     
+        xmlns:FrameworkControls="clr-namespace:ArcGIS.Desktop.Framework.Controls;assembly=ArcGIS.Desktop.Framework"     
         mc:Ignorable="d"
         Title="图斑构建" Height="400" Width="500" MinWidth="400" MinHeight="200"
         WindowStartupLocation="CenterOwner"
@@ -107,17 +107,10 @@
                                     Visibility="{Binding Path=HasMessage, Converter={StaticResource boolToVisibilityConverter}, Mode=OneWay}" />
         
         <StackPanel Grid.Row="4" Grid.Column="0"  HorizontalAlignment="Left" >
-            <Button  x:Name="CreateFilterButton" Margin="5" Command="{Binding SelectAttributeFileCommand}" Style="{DynamicResource Esri_Button}">
-                <Button.ToolTip>选择属性表文件</Button.ToolTip>
-                选择属性表文件
-            </Button>
+            <Button  x:Name="CreateFilterButton" Margin="5" Command="{Binding SelectAttributeFileCommand}" Style="{DynamicResource Esri_Button}">选择属性表文件</Button>
         </StackPanel>
         <StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" >
-            <Button IsDefault="True" Margin="5"  Width="80" 
-                    Command="{Binding ApplyCommand}" CommandParameter="{Binding ElementName=ConstructMapWin}" 
-                    Style="{DynamicResource Esri_Button}">
-                确 定
-            </Button>
+            <Button IsDefault="True" Margin="5"  Width="80" Command="{Binding ApplyCommand}" Style="{DynamicResource Esri_Button}">确 定</Button>
         </StackPanel>
     </Grid>
 </controls:ProWindow>

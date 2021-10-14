@@ -1,9 +1,13 @@
-﻿using ArcGIS.Desktop.Framework.Contracts;
+﻿using ArcGIS.Desktop.Core;
+using ArcGIS.Desktop.Framework;
+using ArcGIS.Desktop.Framework.Contracts;
+using ProAddinSurvey.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace ProAddinSurvey.ViewModels
 {
@@ -28,21 +32,33 @@ namespace ProAddinSurvey.ViewModels
             }
         }
 
-        public string FilePath
+        public string LayerPath
         {
             get { return _layerPath; }
             set
             {
-                SetProperty(ref _layerPath, value, () => FilePath);
+                SetProperty(ref _layerPath, value, () => LayerPath);
             }
         }
-        public string FileName
+        public string LayerName
         {
             get { return _layerName; }
             set
             {
-                SetProperty(ref _layerName, value, () => FileName);
+                SetProperty(ref _layerName, value, () => LayerName);
             }
         }
+        public ICommand BrowseLayerCommand => new RelayCommand((param) =>
+        {
+            IEnumerable<Item> items = FileAccessHelper.BrowsePolygonLayerInFgdb();
+            if (items == null)
+                return;
+            foreach (Item selectedItem in items)
+            {
+                LayerPath = selectedItem.Path;
+                LayerName = selectedItem.Name;
+                break;
+            }
+        }, () => true);
     }
 }

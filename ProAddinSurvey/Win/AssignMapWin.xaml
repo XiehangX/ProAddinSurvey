@@ -4,6 +4,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:ProAddinSurvey.ViewModels"
         xmlns:common="clr-namespace:ProAddinSurvey.Common"
         xmlns:extensions="clr-namespace:ArcGIS.Desktop.Extensions;assembly=ArcGIS.Desktop.Extensions"
         xmlns:FrameworkControls="clr-namespace:ArcGIS.Desktop.Framework.Controls;assembly=ArcGIS.Desktop.Framework"     
@@ -17,6 +18,50 @@
                 <extensions:DesignOnlyResourceDictionary Source="pack://application:,,,/ArcGIS.Desktop.Framework;component\Themes\Default.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <common:BoolToVisibleConverter x:Key="boolToVisibilityConverter"/>
+            <DataTemplate x:Key="DataSourceLayerItemTemplate" DataType="{x:Type vm:DataSourceLayerItem}">
+                <Border BorderBrush="{DynamicResource Esri_BorderBrush}" BorderThickness="1">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="1" Content="{Binding Path=Label}"/>
+                            <TextBox Grid.Column="2" Text ="{Binding Path=LayerName}" ToolTip="{Binding Path=LayerPath}" IsReadOnly="True" HorizontalAlignment="Stretch" TextWrapping="Wrap" Margin="5" MinWidth="150"></TextBox>
+                            <Button Grid.Column="0" MaxHeight="20" MaxWidth="20" Margin="5" Command="{Binding Path=BrowseLayerCommand}">
+                                <Button.ToolTip>选择图层</Button.ToolTip>
+                                <Button.Style>
+                                    <Style TargetType="{x:Type Button}">
+                                        <Setter Property="Visibility" Value="Hidden" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListBoxItem}},Path=IsMouseOver}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                                <Image Stretch="None" Width="16" Height="16" VerticalAlignment="Center" Source="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericOpen16.png">
+                                    <Image.Style>
+                                        <Style TargetType="Image">
+                                            <Style.Triggers>
+                                                <Trigger Property="IsEnabled" Value="False">
+                                                    <Setter Property="Opacity" Value="0.5" />
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Image.Style>
+                                </Image>
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </DataTemplate>
             <Style TargetType="TextBox">
                 <Setter Property="IsReadOnly" Value="True" />
             </Style>
@@ -41,6 +86,7 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
@@ -55,29 +101,31 @@
             <Image />
         </Button>
 
-        <Label Grid.Row="2" Grid.Column="0" Content="属性表文件:"/>
-        <TextBox Grid.Row="3" Grid.Column="0" Text="{Binding FilePath}" />
-        <Button Grid.Row="3" Grid.Column="1" Command="{Binding BrowseFileCommand}">
+        <Label Grid.Row="2" Grid.Column="0" Content="输出路径:"/>
+        <TextBox Grid.Row="3" Grid.Column="0" Text="{Binding TargetPath}" />
+        <Button Grid.Row="3" Grid.Column="1" Command="{Binding BrowseGdbCommand}">
             <Image />
         </Button>
 
-        <Label Grid.Row="4" Grid.Column="0" Content="输出路径:"/>
-        <TextBox Grid.Row="5" Grid.Column="0" Text="{Binding TargetPath}" />
-        <Button Grid.Row="5" Grid.Column="1" Command="{Binding BrowseGdbCommand}">
+        <Label Grid.Row="4" Grid.Column="0" Content="属性表文件:"/>
+        <TextBox Grid.Row="5" Grid.Column="0" Text="{Binding FilePath}" />
+        <Button Grid.Row="5" Grid.Column="1" Command="{Binding BrowseFileCommand}">
             <Image />
         </Button>
+        <ListBox Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" HorizontalContentAlignment="Stretch"
+                     ItemTemplate="{StaticResource DataSourceLayerItemTemplate}"
+                     ItemsSource="{Binding Path=DataSourceLayers, Mode=OneWay}"
+                     SelectedItem="{Binding SelectedDataSourceLayerItem}"
+                     Margin="5" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+        </ListBox>
 
-
-        <FrameworkControls:MessageLabel Grid.Row="6" Grid.ColumnSpan="2" Content="{Binding Message}" Severity="High" MessageType="Information"
+        <FrameworkControls:MessageLabel Grid.Row="7" Grid.ColumnSpan="2" Content="{Binding Message}" Severity="High" MessageType="Information"
                                     HorizontalAlignment="Stretch" CanClose="False"
                                     Visibility="{Binding Path=HasMessage, Converter={StaticResource boolToVisibilityConverter}, Mode=OneWay}" />
         
-        <StackPanel Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" >
-            <Button IsDefault="True" Margin="5"  Width="80" 
-                    Command="{Binding ApplyCommand}" CommandParameter="{Binding ElementName=ConstructMapWin}" 
-                    Style="{DynamicResource Esri_Button}">
-                确 定
-            </Button>
+        <StackPanel Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" >
+            <Button IsDefault="True" Margin="5"  Width="80" Command="{Binding ApplyCommand}" Style="{DynamicResource Esri_Button}">确 定</Button>
         </StackPanel>
     </Grid>
 </controls:ProWindow>
