@@ -304,5 +304,36 @@ namespace ProAddinSurvey.Common
             });
         }
 
+        /// <summary>
+        ///
+        /// analysis.SpatialJoin(target_features, join_features, out_feature_class, {join_operation}, {join_type}, {field_mapping}, {match_option}, {search_radius}, {distance_field_name})
+        /// </summary>
+        /// <param name="targetLayer"></param>
+        /// <param name="argumentsList"></param>
+        /// <returns></returns>
+        public static async Task<string> ExecuteSpatialJoinAsync(FeatureLayer targetLayer, FeatureLayer joinLayer, FeatureClass outFc)
+        {
+            return await QueuedTask.Run(() =>
+            {
+                try
+                {
+                    List<object> arguments = new List<object> { targetLayer,joinLayer,outFc };
+                    var parameters = Geoprocessing.MakeValueArray(arguments.ToArray());
+                    var cts = new CancellationTokenSource();
+                    var results = Geoprocessing.ExecuteToolAsync("analysis.SpatialJoin", parameters, null, cts.Token,
+                          (eventName, o) =>
+                          {
+                              System.Diagnostics.Debug.WriteLine($@"GP event: {eventName}");
+                          });
+                    var isFailure = results.Result.IsFailed || results.Result.IsCanceled;
+                    return !isFailure ? "Failed" : "Ok";
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                    return ex.ToString();
+                }
+            });
+        }
     }
 }

@@ -31,7 +31,6 @@ namespace ProAddinSurvey.ViewModels
         public ObservableCollection<DataSourceLayerItem> DataSourceLayers
         {
             get { return _dataSourceLayers; }
-
         }
 
         private AttributeFileItem _selectedDataSourceLayerItem;
@@ -48,6 +47,19 @@ namespace ProAddinSurvey.ViewModels
             }
         }
 
+        private ObservableCollection<AttributeTableEntity> _attributeFields = new ObservableCollection<AttributeTableEntity>();
+        /// <summary>
+        /// 属性字段集合
+        /// </summary>
+        public ObservableCollection<AttributeTableEntity> AttributeFields
+        {
+            get { return _attributeFields; }
+            set
+            {
+                SetProperty(ref _attributeFields, value, () => AttributeFields);
+            }
+        }
+
         private string _layerPath;
         /// <summary>
         /// 监测图斑图层
@@ -55,8 +67,22 @@ namespace ProAddinSurvey.ViewModels
         public string LayerPath
         {
             get { return _layerPath; }
-            set { 
+            set
+            {
                 SetProperty(ref _layerPath, value, () => LayerPath);
+                //NotifyPropertyChanged(nameof(LayerPath));
+            }
+        }
+        private string _layerName;
+        /// <summary>
+        /// 监测图斑图层
+        /// </summary>
+        public string LayerName
+        {
+            get { return _layerName; }
+            set
+            {
+                SetProperty(ref _layerName, value, () => LayerName);
                 //NotifyPropertyChanged(nameof(LayerPath));
             }
         }
@@ -89,6 +115,7 @@ namespace ProAddinSurvey.ViewModels
             foreach (Item selectedItem in items)
             {
                 LayerPath = selectedItem.Path;
+                LayerName = selectedItem.Name;
                 break;
             }
         }, () => true);
@@ -132,10 +159,11 @@ namespace ProAddinSurvey.ViewModels
                 DataSourceLayers.Clear();
                 using (DataTable dt = ExcelHelper.LoadTableFirst(filePath, rowHeader))
                 {
-                    List<AttributeTableEntity> list = ExcelHelper.DataTableToList<AttributeTableEntity>(dt);
+                    AttributeFields = new ObservableCollection<AttributeTableEntity>(ExcelHelper.DataTableToList<AttributeTableEntity>(dt));
 
-                    foreach (AttributeTableEntity field in list)
+                    foreach (AttributeTableEntity field in AttributeFields)
                     {
+
                         if (string.IsNullOrEmpty(field.模式) || string.IsNullOrEmpty(field.数据来源) || field.模式 != "A")
                             continue;
 
@@ -199,7 +227,12 @@ namespace ProAddinSurvey.ViewModels
 
         private bool CheckParams()
         {
-            SurveyLayer = LayerFactory.Instance.CreateFeatureLayer(new Uri(LayerPath), MapView.Active.Map);
+            var layer = MapView.Active.Map.GetLayersAsFlattenedList().OfType<FeatureLayer>().Where((l) => l.Name == LayerName).FirstOrDefault();
+            if (layer == null || layer != SurveyLayer)
+            {
+                SurveyLayer = LayerFactory.Instance.CreateFeatureLayer(new Uri(LayerPath), MapView.Active.Map);
+            }
+
             if (SurveyLayer == null)
             {
                 MessageBox.Show($@"{LayerPath} 图层不存在或无法访问");
@@ -212,14 +245,24 @@ namespace ProAddinSurvey.ViewModels
                 return false;
             }
 
-            if (!Directory.Exists(TargetPath))
-            {
-                MessageBox.Show($@"{TargetPath} 目标GDB不存在或无法访问");
-                return false;
-            }
+            //if (!Directory.Exists(TargetPath))
+            //{
+            //    MessageBox.Show($@"{TargetPath} 目标GDB不存在或无法访问");
+            //    return false;
+            //}
+
+            //DataSourceLayerItem item = DataSourceLayers.FirstOrDefault(i => string.IsNullOrEmpty(i.LayerPath));
+            //if (item != null)
+            //{
+            //    MessageBox.Show($@"{item.Label} 的数据源未设置。");
+            //    return false;
+            //}
 
             return true;
         }
+
+
+        private bool CanSaveChanges() => !string.IsNullOrEmpty(LayerPath) && !string.IsNullOrEmpty(FilePath); // && !string.IsNullOrEmpty(TargetPath)
 
         private async void SaveChanges()
         {
@@ -229,19 +272,18 @@ namespace ProAddinSurvey.ViewModels
                 if (!CheckParams())
                     return;
 
+                MessageBox.Show("开发中");
                 try
                 {
-                    int rowHeader = 3;
-                    using (DataTable dt = ExcelHelper.LoadTableFirst(FilePath, rowHeader))
-                    {
-                        List<AttributeTableEntity> list = ExcelHelper.DataTableToList<AttributeTableEntity>(dt);
+                    //var groups = AttributeFields.Where(i => i.模式 == "A").GroupBy(i => i.数据来源);
 
-                        foreach (AttributeTableEntity field in list)
-                        {
-                            //List<object> arguments = field.ToAddFieldDesc();
-                            //await GPToolHelper.ExecuteAddFieldToolAsync(SurveyLayer, arguments);
-                        }
-                    }
+                    //foreach (var group in groups)
+                    //{
+                    //    string datasourceLabel = group.Key;
+                    //    List<AttributeTableEntity> fieldList = group.ToList();
+                    //    //List<object> arguments = field.ToAddFieldDesc();
+                    //    //await GPToolHelper.ExecuteAddFieldToolAsync(SurveyLayer, arguments);
+                    //}
                 }
                 catch (Exception exp)
                 {
@@ -251,7 +293,24 @@ namespace ProAddinSurvey.ViewModels
             });
         }
 
-        private bool CanSaveChanges() => !string.IsNullOrEmpty(LayerPath) && !string.IsNullOrEmpty(FilePath) && !string.IsNullOrEmpty(TargetPath);
+        //private FeatureLayer GetDataSourceLayer(string label)
+        //{
+        //    DataSourceLayerItem layerItem = DataSourceLayers.FirstOrDefault(i => i.Label == label && !string.IsNullOrEmpty(i.LayerPath ));
+        //    if (layerItem == null)
+        //        return null;
+
+        //    var layer = MapView.Active.Map.GetLayersAsFlattenedList().OfType<FeatureLayer>().Where((l) => l.Name == layerItem.LayerName).FirstOrDefault();
+        //    if (layer == null)
+        //    {
+        //        layer = LayerFactory.Instance.CreateFeatureLayer(new Uri(layerItem.LayerPath), MapView.Active.Map);
+        //    }
+        //    return layer;
+        //}
+
+        //private void UpdateFields()
+        //{ 
+            
+        //}
 
     }
 }
