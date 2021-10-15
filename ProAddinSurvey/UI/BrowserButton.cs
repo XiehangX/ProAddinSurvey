@@ -35,6 +35,7 @@ namespace ProAddinSurvey.UI
             if (ok == true)
             {
                 IEnumerable<Item> selectedItems = pathDialog.Items;
+
                 foreach (Item selectedItem in selectedItems)
                 {
                     MessageBox.Show(selectedItem.Path);
@@ -43,6 +44,7 @@ namespace ProAddinSurvey.UI
             }
             Module1.mapPreorder = MapView.Active.Map;
 
+            if (Module1.url == null) return;
             Module1.lyr = await AddLayer(Module1.url, Module1.mapPreorder);
             Module1.flyr = await GetFeatureLayer(Module1.lyr);
 

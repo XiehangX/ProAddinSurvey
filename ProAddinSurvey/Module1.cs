@@ -94,6 +94,9 @@ namespace ProAddinSurvey
         public static string outputFolder;
         public static int[] countList = new int[6] { 0, 0, 0, 0, 0, 0 };
         public static Selection QALayerSelection;
+        public static bool isClickedFwBw = false;
+        public static bool isClickedStatr = false;
+        public static bool isSaveEdit = false;
 
 
 
@@ -198,6 +201,7 @@ namespace ProAddinSurvey
         {
             try
             {
+                isSaveEdit = true;
                 var cmdSaveEdits = FrameworkApplication.GetPlugInWrapper("esri_editing_SaveEditsBtn") as ICommand;
                 if (cmdSaveEdits != null)
                 {
@@ -263,6 +267,7 @@ namespace ProAddinSurvey
                     }
                     _ = GetFeatureCount(Module1.flyr, NoteFieldName, tab);
                     selectionIndex = -1;
+                    isClickedStatr = true;
                 });
             }
             catch (Exception ex)
@@ -308,6 +313,7 @@ namespace ProAddinSurvey
                     QALayer.Select(qf);
                     MapView.Active.ZoomTo(QALayer, value, TimeSpan.FromSeconds(0));
                     MapView.Active.ZoomOutFixed(TimeSpan.FromSeconds(0));
+                    isClickedFwBw = true;
                 });
             }
             catch (Exception ex)
@@ -339,6 +345,7 @@ namespace ProAddinSurvey
                     {
                         MessageBox.Show("Operation was not added to undo stack.");
                     }
+                    isSaveEdit = false;
 
                 });
             }

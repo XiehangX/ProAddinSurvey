@@ -23,6 +23,9 @@ namespace ProAddinSurvey.UI
     {
         protected override void OnClick()
         {
+            if (Module1.lyr == null || Module1.flyr == null) return;
+            if (Module1.isClickedFwBw == false) return;
+
             string ts = Module1.Current.GetTimeString();
             Module1.Current.EditNoteFiledValue(Module1.NoteFieldName3, "真变化但不符合", Module1.TimeFieldName3, ts);
 

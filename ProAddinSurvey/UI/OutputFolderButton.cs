@@ -23,10 +23,11 @@ namespace ProAddinSurvey.UI
     {
         protected override void OnClick()
         {
-            
+            if (Module1.isClickedFwBw == false) return;
+
             OpenItemDialog pathDialog = new OpenItemDialog()
             {
-                Title = "选择文件夹",
+                Title = "选择导出文件夹",
                 MultiSelect = false,
                 Filter = ItemFilters.folders
             };

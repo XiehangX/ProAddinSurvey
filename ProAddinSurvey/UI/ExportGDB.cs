@@ -27,6 +27,10 @@ namespace ProAddinSurvey.UI
         public static string gdbFullName;
         protected override void OnClick()
         {
+            if (Module1.lyr == null || Module1.flyr == null) return;
+            if (Module1.outputFolder == null) return;
+            if (Module1.isSaveEdit == false) return;
+
             string str_id = this.ID;
             FeatureLayer QALayer = Module1.flyr;
             string[] NoteTypeList;

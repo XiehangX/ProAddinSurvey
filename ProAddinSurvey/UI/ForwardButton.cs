@@ -23,6 +23,9 @@ namespace ProAddinSurvey.UI
     {
         protected override void OnClick()
         {
+            if (Module1.lyr == null || Module1.flyr == null) return;
+            if (Module1.isClickedStatr == false) return;
+
             Module1.Current.SelectNextNull(true);
         }
     }

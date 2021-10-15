@@ -23,6 +23,8 @@ namespace ProAddinSurvey.UI
     {
         protected override void OnClick()
         {
+            if (Module1.lyr == null || Module1.flyr == null) return;
+
             string str_id = this.ID;
             try
             {

@@ -23,6 +23,9 @@ namespace ProAddinSurvey.UI
     {
         protected override void OnClick()
         {
+            if (Module1.lyr == null || Module1.flyr == null) return;
+            if (Module1.isClickedFwBw == false) return;
+
             string str_id = this.ID;
             string ts = Module1.Current.GetTimeString();
 
